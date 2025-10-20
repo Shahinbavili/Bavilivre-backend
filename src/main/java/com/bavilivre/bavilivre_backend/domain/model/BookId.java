@@ -1,4 +1,4 @@
-package com.bavilivre.bavilivre_backend.application;
+package com.bavilivre.bavilivre_backend.domain.model;
 
 public class BookId {
     private final int id;

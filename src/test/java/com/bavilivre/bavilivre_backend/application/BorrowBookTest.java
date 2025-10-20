@@ -1,6 +1,9 @@
 package com.bavilivre.bavilivre_backend.application;
 
 import com.bavilivre.bavilivre_backend.domain.application.BorrowBook;
+import com.bavilivre.bavilivre_backend.domain.model.BookId;
+import com.bavilivre.bavilivre_backend.domain.model.User;
+import com.bavilivre.bavilivre_backend.domain.model.UserId;
 import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.*;
 

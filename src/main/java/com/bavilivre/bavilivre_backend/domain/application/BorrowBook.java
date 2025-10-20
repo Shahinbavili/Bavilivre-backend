@@ -1,7 +1,7 @@
 package com.bavilivre.bavilivre_backend.domain.application;
 
-import com.bavilivre.bavilivre_backend.application.BookId;
-import com.bavilivre.bavilivre_backend.application.UserId;
+import com.bavilivre.bavilivre_backend.domain.model.BookId;
+import com.bavilivre.bavilivre_backend.domain.model.UserId;
 
 public class BorrowBook {
 
