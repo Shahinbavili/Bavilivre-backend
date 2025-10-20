@@ -1,4 +1,4 @@
-package com.bavilivre.bavilivre_backend.config;
+package com.bavilivre.bavilivre_backend.infrastructure.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
