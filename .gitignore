@@ -34,4 +34,21 @@ Thumbs.db
 
 # Environnements
 .env
-application-local.properties  # Si tu as des props locales
+application-local.properties
+
+# Maven spécifiques
+.mvn/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
+buildNumber.properties
+.mvn/timing.properties
+# Ignorer les crash logs JVM
+hs_err_pid*
+replay_pid*
+# Autres communs pour Spring
+*.hprof  # Heap dumps
+*.pid    # PID files
