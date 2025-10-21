@@ -1,6 +1,6 @@
 package com.bavilivre.bavilivre_backend;
 
-import com.bavilivre.bavilivre_backend.infrastructure.config.SecurityConfig;
+import com.bavilivre.bavilivre_backend.infra.config.SecurityConfig;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

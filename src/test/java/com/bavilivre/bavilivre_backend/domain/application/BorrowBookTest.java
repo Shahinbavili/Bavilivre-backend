@@ -1,4 +1,4 @@
-package com.bavilivre.bavilivre_backend.application;
+package com.bavilivre.bavilivre_backend.domain.application;
 
 import com.bavilivre.bavilivre_backend.domain.application.BorrowBook;
 import com.bavilivre.bavilivre_backend.domain.model.BookId;
