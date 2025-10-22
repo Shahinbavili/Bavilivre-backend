@@ -1,4 +1,4 @@
-package com.bavilivre.bavilivre_backend.domain.model;
+package com.bavilivre.bavilivre_backend.domain.model.user;
 
 public class UserId {
 

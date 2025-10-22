@@ -1,8 +1,10 @@
-package com.bavilivre.bavilivre_backend.domain.model;
+package com.bavilivre.bavilivre_backend.domain.model.user;
 
+import com.bavilivre.bavilivre_backend.domain.model.BookId;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
+
 
 public class UserTest {
     @Test
@@ -16,7 +18,8 @@ public class UserTest {
         user.barrow(bookId);
 
 //       Then
-        //verifier que id de livre exist dans la liste
         assertThat(user.hasBorrowed(bookId)).isTrue();
+        assertThat(user.borrowedBooks()).contains(bookId);
+//        user.borrowedBooks().forEach(System.out::println);
     }
 }
