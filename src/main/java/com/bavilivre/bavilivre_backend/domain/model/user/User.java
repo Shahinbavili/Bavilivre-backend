@@ -7,7 +7,8 @@ import java.util.Set;
 
 public class User {
     private final UserId userId;
-    Set<BookId> borrowedBooks;
+    private final Set<BookId> borrowedBooks;
+    private Set<BookId> lentBooks;
 
     public User(UserId userId) {
 
@@ -19,11 +20,15 @@ public class User {
         return borrowedBooks.contains(bookId);
     }
 
-    public void barrow(BookId bookId) {
+    public void borrow(BookId bookId) {
         borrowedBooks.add(bookId);
     }
 
     public Set<BookId> borrowedBooks() {
         return borrowedBooks;
+    }
+
+    public Set<BookId> lentBooks() {
+        return lentBooks;
     }
 }

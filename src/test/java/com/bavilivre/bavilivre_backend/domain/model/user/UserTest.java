@@ -15,7 +15,7 @@ public class UserTest {
         final BookId bookId = new BookId(7);
 
 //       When
-        user.barrow(bookId);
+        user.borrow(bookId);
 
 //       Then
         assertThat(user.hasBorrowed(bookId)).isTrue();
