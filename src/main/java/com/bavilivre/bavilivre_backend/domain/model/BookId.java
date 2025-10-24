@@ -3,7 +3,13 @@ package com.bavilivre.bavilivre_backend.domain.model;
 import java.util.Objects;
 
 public class BookId {
+
+
     private final int id;
+
+    public int getId() {
+        return id;
+    }
 
     public BookId(int id) {
         this.id = id;
