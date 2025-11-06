@@ -6,13 +6,15 @@ public class BookId {
 
 
     private final int id;
+    private final int ownerId;
 
     public int getId() {
         return id;
     }
 
-    public BookId(int id) {
+    public BookId(int id, int ownerId) {
         this.id = id;
+        this.ownerId = ownerId;
     }
 
     @Override
@@ -32,5 +34,9 @@ public class BookId {
     @Override
     public int hashCode() {
         return Objects.hashCode(id);
+    }
+
+    public int getOwnerId() {
+        return ownerId;
     }
 }

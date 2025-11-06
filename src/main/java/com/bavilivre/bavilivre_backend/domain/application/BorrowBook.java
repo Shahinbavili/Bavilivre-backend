@@ -4,9 +4,6 @@ import com.bavilivre.bavilivre_backend.domain.model.BookId;
 import com.bavilivre.bavilivre_backend.domain.model.user.User;
 import com.bavilivre.bavilivre_backend.domain.model.user.UserId;
 
-import java.util.Set;
-import java.util.stream.Collectors;
-
 public class BorrowBook {
 
     private UserId lenderId;
@@ -25,6 +22,7 @@ public class BorrowBook {
         User lender = new User(lenderId);
 
         borrower.borrow(bookId);
+        lender.lend(bookId);
 
         return new BorrowBookMapper().getBorrowDto(borrower);
     }

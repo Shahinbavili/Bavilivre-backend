@@ -14,6 +14,7 @@ public class User {
 
         this.userId = userId;
         this.borrowedBooks = new HashSet<>();
+        this.lentBooks = new HashSet<>();
     }
 
     public boolean hasBorrowed(BookId bookId) {
@@ -24,11 +25,18 @@ public class User {
         borrowedBooks.add(bookId);
     }
 
+    public void lend(BookId bookId) {
+        lentBooks.add(bookId);
+    }
+
     public Set<BookId> borrowedBooks() {
         return borrowedBooks;
     }
 
+
     public Set<BookId> lentBooks() {
         return lentBooks;
     }
+
+
 }

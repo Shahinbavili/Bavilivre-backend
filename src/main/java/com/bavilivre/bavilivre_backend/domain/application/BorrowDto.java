@@ -1,15 +1,16 @@
 package com.bavilivre.bavilivre_backend.domain.application;
 
+import java.util.Map;
 import java.util.Set;
 
 public class BorrowDto {
-    Set<Integer> borrowedBookIds;
+    Map<Integer, Integer> borrowedBookIds;
 
-    public Set<Integer> getBorrowedBookList() {
+    public Map<Integer, Integer> getBorrowedBookList() {
         return borrowedBookIds;
     }
 
-    public void setBorrowedBookList(Set<Integer> borrowedBookList) {
+    public void setBorrowedBookList(Map<Integer, Integer> borrowedBookList) {
         this.borrowedBookIds = borrowedBookList;
     }
 }

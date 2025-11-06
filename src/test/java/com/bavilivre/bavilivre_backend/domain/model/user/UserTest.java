@@ -12,7 +12,7 @@ public class UserTest {
 //       Given
         final UserId userId = new UserId(2);
         final User user = new User(userId);
-        final BookId bookId = new BookId(7);
+        final BookId bookId = new BookId(7, 2);
 
 //       When
         user.borrow(bookId);
