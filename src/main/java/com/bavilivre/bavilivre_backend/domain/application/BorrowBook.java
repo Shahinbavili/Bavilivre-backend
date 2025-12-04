@@ -6,9 +6,9 @@ import com.bavilivre.bavilivre_backend.domain.model.user.UserId;
 
 public class BorrowBook {
 
-    private UserId lenderId;
-    private BookId bookId;
-    private UserId borrowerId;
+    private final UserId lenderId;
+    private final BookId bookId;
+    private final UserId borrowerId;
 
     public BorrowBook(UserId lenderId, BookId bookId, UserId borrowerId) {
         this.lenderId = lenderId;
@@ -17,14 +17,14 @@ public class BorrowBook {
     }
 
 
-    public BorrowDto fromAUserToAnotherUser() {
+    public BorrowedBooksDto fromAUserToAnotherUser() {
         User borrower = new User(borrowerId);
         User lender = new User(lenderId);
 
         borrower.borrow(bookId);
         lender.lend(bookId);
 
-        return new BorrowBookMapper().getBorrowDto(borrower);
+        return new BorrowDtoMapper().toDto(borrower);
     }
 
 

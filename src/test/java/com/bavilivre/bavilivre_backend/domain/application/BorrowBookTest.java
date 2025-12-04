@@ -17,18 +17,18 @@ public class BorrowBookTest {
 
         UserId lenderId = new UserId(1);
         UserId borrowerId = new UserId(2);
-        BookId bookId = new BookId(7, 1);
+        BookId bookId = new BookId(7, lenderId.value());
 
         //When
 
         final BorrowBook borrowBook = new BorrowBook(lenderId, bookId, borrowerId);
-        final BorrowDto borrowDto = borrowBook.fromAUserToAnotherUser();
+        final BorrowedBooksDto borrowedBooksDto = borrowBook.fromAUserToAnotherUser();
 
         //Then
 
         Map<Integer, Integer> expected = new HashMap<>();
         expected.put(7, 1);
-        assertThat(borrowDto.getBorrowedBookList()).isEqualTo(expected);
+        assertThat(borrowedBooksDto.borrowedBookList()).isEqualTo(expected);
 //        assertThat(borrower.borrowedBooks()).isEqualTo(lender.lentBooks());
     }
 
