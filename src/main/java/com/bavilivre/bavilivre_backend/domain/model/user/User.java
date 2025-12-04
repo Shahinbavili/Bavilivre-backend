@@ -1,41 +1,45 @@
 package com.bavilivre.bavilivre_backend.domain.model.user;
 
-import com.bavilivre.bavilivre_backend.domain.model.BookId;
+import com.bavilivre.bavilivre_backend.domain.model.book.Book;
 
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
 public class User {
     private final UserId userId;
-    private final Set<BookId> borrowedBooks;
-    private Set<BookId> lentBooks;
+
+    private final Set<Book> borrowedBooks;
+    private final Set<Book> lentBooks;
 
     public User(UserId userId) {
-
         this.userId = userId;
         this.borrowedBooks = new HashSet<>();
         this.lentBooks = new HashSet<>();
     }
 
-    public boolean hasBorrowed(BookId bookId) {
-        return borrowedBooks.contains(bookId);
+    public UserId id() {
+        return userId;
     }
 
-    public void borrow(BookId bookId) {
-        borrowedBooks.add(bookId);
+    public boolean hasBorrowed(Book book) {
+        return borrowedBooks.contains(book);
     }
 
-    public void lend(BookId bookId) {
-        lentBooks.add(bookId);
+    public void borrow(Book book) {
+        borrowedBooks.add(book);
     }
 
-    public Set<BookId> borrowedBooks() {
-        return borrowedBooks;
+    public void lend(Book book) {
+        lentBooks.add(book);
     }
 
+    public Set<Book> borrowedBooks() {
+        return Collections.unmodifiableSet(borrowedBooks);
+    }
 
-    public Set<BookId> lentBooks() {
-        return lentBooks;
+    public Set<Book> lentBooks() {
+        return Collections.unmodifiableSet(lentBooks);
     }
 
 

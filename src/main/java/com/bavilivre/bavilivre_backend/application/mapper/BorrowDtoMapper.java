@@ -1,6 +1,6 @@
-package com.bavilivre.bavilivre_backend.domain.application;
+package com.bavilivre.bavilivre_backend.application.mapper;
 
-import com.bavilivre.bavilivre_backend.domain.model.BookId;
+import com.bavilivre.bavilivre_backend.application.dto.BorrowedBooksDto;
 import com.bavilivre.bavilivre_backend.domain.model.user.User;
 
 import java.util.Map;
@@ -11,8 +11,8 @@ public class BorrowDtoMapper {
 
         Map<Integer, Integer> borrowedBookList = borrower.borrowedBooks().stream()
                 .collect(Collectors.toMap(
-                        BookId::id,
-                        BookId::ownerId
+                        book -> book.id().value(),
+                        book -> book.ownerId().value()
                 ));
 
         return new BorrowedBooksDto(borrowedBookList);

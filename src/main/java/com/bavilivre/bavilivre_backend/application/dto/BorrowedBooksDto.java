@@ -1,4 +1,4 @@
-package com.bavilivre.bavilivre_backend.domain.application;
+package com.bavilivre.bavilivre_backend.application.dto;
 
 import java.util.Map;
 
