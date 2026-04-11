@@ -4,6 +4,7 @@ spring:
     driver-class-name: org.h2.Driver
     username: sa
     password:
+
   h2:
     console:
       enabled: true
@@ -14,7 +15,9 @@ spring:
       ddl-auto: update
     show-sql: true
     properties:
-      hibernate.format_sql: true
+      hibernate:
+        format_sql: true
+    open-in-view: false
 
   flyway:
     enabled: false
@@ -23,29 +26,22 @@ server:
   port: 8080
   compression:
     enabled: true
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+
 ---
 spring:
   config:
     activate:
       on-profile: prod
-  datasource:
-    url: jdbc:mysql://localhost:3306/bavilivre
-    username: root
-    password: root
-  jpa:
-    open-in-view: false
-    hibernate:
-      ddl-auto: update
-  flyway:
-    enabled: true
-  security:
-    user:
-      name: user
-      password: password
-    # Ou pour désactiver CSRF si c'est une API
-    csrf:
+
+  h2:
+    console:
       enabled: false
-server:
-  compression:
-    enabled: true
-  port: 8080
+
+  jpa:
+    show-sql: false

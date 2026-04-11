@@ -19,7 +19,7 @@ public class CorsConfig {
         configuration.setAllowedOrigins(List.of(
                 "http://localhost:4200"
                 // plus tard :
-                // "https://ton-frontend.netlify.app"
+                // "https://frontend.netlify.app"
         ));
 
         configuration.setAllowedMethods(List.of(

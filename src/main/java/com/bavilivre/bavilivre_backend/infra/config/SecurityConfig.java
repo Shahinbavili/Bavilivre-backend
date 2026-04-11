@@ -4,6 +4,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -20,10 +21,9 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable) // désactive CSRF pour H2 console
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/h2-console/**", "/actuator/**").permitAll() // accès libre
-                        .anyRequest().authenticated() // le reste nécessite login
+                        .anyRequest().permitAll() // à remettre une vraie sécurité JWT
                 )
-                .formLogin(form -> form.defaultSuccessUrl("/", true))
-                .headers(headers -> headers.frameOptions(frame -> frame.disable())); // pour H2 console
+                .headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable)); // pour H2 console
 
         return http.build();
     }
