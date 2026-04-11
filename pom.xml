@@ -12,7 +12,7 @@
     <artifactId>bavilivre-backend</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>Bavilivre-Backend</name>
-    <description>Backend du projet Bavilivre — Architecture DDD, Java 25, AWS Ready</description>
+    <description>Backend du projet Bavilivre — Architecture DDD, Java 21</description>
     <url/>
     <licenses>
         <license/>
