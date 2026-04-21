@@ -1,7 +1,9 @@
 package com.bavilivre.bavilivre_backend.infrastructure.controller;
 
 import com.bavilivre.bavilivre_backend.application.dto.BorrowedBooksDto;
+import com.bavilivre.bavilivre_backend.application.dto.LentBooksDto;
 import com.bavilivre.bavilivre_backend.application.usecase.GetBorrowedBooks;
+import com.bavilivre.bavilivre_backend.application.usecase.GetLentBooks;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -9,17 +11,24 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/users")
-public class UserBorrowController {
+public class UserBooksController {
 
     private final GetBorrowedBooks getBorrowedBooks;
+    private final GetLentBooks getLentBooks;
 
-    public UserBorrowController(GetBorrowedBooks getBorrowedBooks) {
+    public UserBooksController(GetBorrowedBooks getBorrowedBooks, GetLentBooks getLentBooks) {
         this.getBorrowedBooks = getBorrowedBooks;
+        this.getLentBooks = getLentBooks;
     }
 
     @GetMapping("/{userId}/borrowed-books")
     public BorrowedBooksDto getBorrowedBooks(@PathVariable Integer userId) {
 
         return getBorrowedBooks.handle(userId);
+    }
+
+    @GetMapping("/{userId}/lent-books")
+    public LentBooksDto getLentBooks(@PathVariable Integer userId) {
+        return getLentBooks.handle(userId);
     }
 }
