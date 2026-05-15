@@ -1,0 +1,46 @@
+package com.bavilivre.bavilivre_backend.infrastructure.persistence.adapter;
+
+import com.bavilivre.bavilivre_backend.application.port.BookRepository;
+import com.bavilivre.bavilivre_backend.domain.model.book.Book;
+import com.bavilivre.bavilivre_backend.domain.model.book.BookId;
+import com.bavilivre.bavilivre_backend.infrastructure.persistence.mapper.BookJpaMapper;
+import com.bavilivre.bavilivre_backend.infrastructure.persistence.repository.BookSpringDataRepository;
+import org.springframework.stereotype.Repository;
+
+import java.util.List;
+import java.util.Optional;
+
+@Repository
+public class BookJpaAdapter implements BookRepository {
+
+    private final BookSpringDataRepository repository;
+    private final BookJpaMapper mapper = new BookJpaMapper();
+
+    public BookJpaAdapter(BookSpringDataRepository repository) {
+        this.repository = repository;
+    }
+
+    @Override
+    public Optional<Book> findById(BookId id) {
+        return repository.findById(id.value())
+                .map(mapper::toDomain);
+    }
+
+    @Override
+    public List<Book> findAll() {
+        return repository.findAll()
+                .stream()
+                .map(mapper::toDomain)
+                .toList();
+    }
+
+    @Override
+    public Book save(Book book) {
+
+        var entity = mapper.toEntity(book);
+
+        var savedEntity = repository.save(entity);
+
+        return mapper.toDomain(savedEntity);
+    }
+}

@@ -6,6 +6,7 @@ import com.bavilivre.bavilivre_backend.domain.model.borrowing.BorrowingId;
 import com.bavilivre.bavilivre_backend.domain.model.user.UserId;
 import com.bavilivre.bavilivre_backend.infrastructure.persistence.entity.BookJpaEntity;
 import com.bavilivre.bavilivre_backend.infrastructure.persistence.entity.BorrowingJpaEntity;
+import com.bavilivre.bavilivre_backend.infrastructure.persistence.entity.UserJpaEntity;
 
 public class BorrowingJpaMapper {
 
@@ -36,10 +37,10 @@ public class BorrowingJpaMapper {
                 borrowing.id().value(),
                 new BookJpaEntity(
                         borrowing.bookId().value(),
-                        null
+                        new UserJpaEntity(borrowing.lenderId().value())
                 ),
-                userMapper.toEntity(borrowing.borrowerId()),
-                userMapper.toEntity(borrowing.lenderId()),
+                new UserJpaEntity(borrowing.borrowerId().value()),
+                new UserJpaEntity(borrowing.lenderId().value()),
                 borrowing.borrowedAt(),
                 borrowing.returnedAt()
         );

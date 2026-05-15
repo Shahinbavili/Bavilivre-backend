@@ -15,5 +15,7 @@ public interface BorrowingRepository {
 
     List<Borrowing> findByOwnerId(UserId ownerId);
 
+    List<Borrowing> findAll();
+
     Borrowing save(Borrowing borrowing);
 }
