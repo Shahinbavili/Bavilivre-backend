@@ -1,39 +1,69 @@
 package com.bavilivre.bavilivre_backend.application.usecase;
 
-import com.bavilivre.bavilivre_backend.application.dto.BorrowedBooksDto;
+import com.bavilivre.bavilivre_backend.application.port.BookRepository;
+import com.bavilivre.bavilivre_backend.application.port.BorrowingRepository;
+import com.bavilivre.bavilivre_backend.application.port.UserRepository;
 import com.bavilivre.bavilivre_backend.domain.model.book.Book;
 import com.bavilivre.bavilivre_backend.domain.model.book.BookId;
+import com.bavilivre.bavilivre_backend.domain.model.borrowing.Borrowing;
+import com.bavilivre.bavilivre_backend.domain.model.borrowing.BorrowingId;
+import com.bavilivre.bavilivre_backend.domain.model.user.User;
 import com.bavilivre.bavilivre_backend.domain.model.user.UserId;
 import org.junit.jupiter.api.Test;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.time.LocalDate;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.*;
 
 public class BorrowBookTest {
     @Test
-    void shouldAUserBorrowABookFromAnotherUser() {
+    void should_borrow_a_book_using_repository_ports() {
 
-        //Given
+        BookRepository bookRepository = mock(BookRepository.class);
+        UserRepository userRepository = mock(UserRepository.class);
+        BorrowingRepository borrowingRepository = mock(BorrowingRepository.class);
 
+        BorrowBook borrowBook = new BorrowBook(
+                bookRepository,
+                userRepository,
+                borrowingRepository
+        );
+
+        BookId bookId = new BookId(7);
         UserId lenderId = new UserId(1);
         UserId borrowerId = new UserId(2);
-        BookId bookId = new BookId(7);
+        BorrowingId borrowingId = new BorrowingId(100);
+        LocalDate borrowedAt = LocalDate.of(2026, 5, 19);
+
         Book book = new Book(bookId, lenderId);
+        User borrower = new User(borrowerId);
+        User lender = new User(lenderId);
 
-        //When
+        when(bookRepository.findById(bookId)).thenReturn(Optional.of(book));
+        when(userRepository.findById(borrowerId)).thenReturn(Optional.of(borrower));
+        when(userRepository.findById(lenderId)).thenReturn(Optional.of(lender));
+        when(borrowingRepository.save(any(Borrowing.class)))
+                .thenAnswer(invocation -> invocation.getArgument(0));
 
-        final BorrowBook borrowBook = new BorrowBook(lenderId, book, borrowerId);
-        final BorrowedBooksDto borrowedBooksDto = borrowBook.fromAUserToAnotherUser();
+        Borrowing borrowing = borrowBook.borrow(
+                borrowingId,
+                bookId,
+                borrowerId,
+                borrowedAt
+        );
 
-        //Then
-
-        Map<Integer, Integer> expected = new HashMap<>();
-        expected.put(7, 1);
-        assertThat(borrowedBooksDto.borrowedBookList()).isEqualTo(expected);
-//        assertThat(borrower.borrowedBooks()).isEqualTo(lender.lentBooks());
+        assertThat(borrowing.id()).isEqualTo(borrowingId);
+        assertThat(borrowing.bookId()).isEqualTo(bookId);
+        assertThat(borrowing.borrowerId()).isEqualTo(borrowerId);
+        assertThat(borrowing.lenderId()).isEqualTo(lenderId);
+        assertThat(borrowing.borrowedAt()).isEqualTo(borrowedAt);
+        verify(bookRepository).findById(bookId);
+        verify(userRepository).findById(borrowerId);
+        verify(userRepository).findById(lenderId);
+        verify(borrowingRepository).save(any(Borrowing.class));
     }
-
 
 }
