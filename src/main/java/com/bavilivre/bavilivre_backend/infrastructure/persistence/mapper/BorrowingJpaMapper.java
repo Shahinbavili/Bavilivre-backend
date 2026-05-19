@@ -7,11 +7,10 @@ import com.bavilivre.bavilivre_backend.domain.model.user.UserId;
 import com.bavilivre.bavilivre_backend.infrastructure.persistence.entity.BookJpaEntity;
 import com.bavilivre.bavilivre_backend.infrastructure.persistence.entity.BorrowingJpaEntity;
 import com.bavilivre.bavilivre_backend.infrastructure.persistence.entity.UserJpaEntity;
+import org.springframework.stereotype.Component;
 
+@Component
 public class BorrowingJpaMapper {
-
-    private final BookJpaMapper bookMapper = new BookJpaMapper();
-    private final UserJpaMapper userMapper = new UserJpaMapper();
 
     public Borrowing toDomain(BorrowingJpaEntity entity) {
         Borrowing borrowing = new Borrowing(

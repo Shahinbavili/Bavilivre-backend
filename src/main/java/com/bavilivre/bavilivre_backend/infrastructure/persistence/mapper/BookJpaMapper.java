@@ -4,7 +4,9 @@ import com.bavilivre.bavilivre_backend.domain.model.book.Book;
 import com.bavilivre.bavilivre_backend.domain.model.book.BookId;
 import com.bavilivre.bavilivre_backend.domain.model.user.UserId;
 import com.bavilivre.bavilivre_backend.infrastructure.persistence.entity.BookJpaEntity;
+import org.springframework.stereotype.Component;
 
+@Component
 public class BookJpaMapper {
 
     private final UserJpaMapper userMapper = new UserJpaMapper();

@@ -15,10 +15,14 @@ import java.util.Optional;
 public class BorrowingJpaAdapter implements BorrowingRepository {
 
     private final BorrowingSpringDataRepository repository;
-    private final BorrowingJpaMapper mapper = new BorrowingJpaMapper();
+    private final BorrowingJpaMapper mapper;
 
-    public BorrowingJpaAdapter(BorrowingSpringDataRepository repository) {
+    public BorrowingJpaAdapter(
+            BorrowingSpringDataRepository repository,
+            BorrowingJpaMapper mapper
+    ) {
         this.repository = repository;
+        this.mapper = mapper;
     }
 
     @Override
@@ -36,16 +40,8 @@ public class BorrowingJpaAdapter implements BorrowingRepository {
     }
 
     @Override
-    public List<Borrowing> findByOwnerId(UserId ownerId) {
-        return repository.findByLenderId(ownerId.value())
-                .stream()
-                .map(mapper::toDomain)
-                .toList();
-    }
-
-    @Override
-    public List<Borrowing> findAll() {
-        return repository.findAll()
+    public List<Borrowing> findByLenderId(UserId lenderId) {
+        return repository.findByLenderId(lenderId.value())
                 .stream()
                 .map(mapper::toDomain)
                 .toList();
