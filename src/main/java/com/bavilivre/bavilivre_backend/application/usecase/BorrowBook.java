@@ -1,33 +1,54 @@
 package com.bavilivre.bavilivre_backend.application.usecase;
 
-import com.bavilivre.bavilivre_backend.application.dto.BorrowedBooksDto;
-import com.bavilivre.bavilivre_backend.application.mapper.BorrowDtoMapper;
+import com.bavilivre.bavilivre_backend.application.port.BookRepository;
+import com.bavilivre.bavilivre_backend.application.port.BorrowingRepository;
+import com.bavilivre.bavilivre_backend.application.port.UserRepository;
 import com.bavilivre.bavilivre_backend.domain.model.book.Book;
+import com.bavilivre.bavilivre_backend.domain.model.book.BookId;
+import com.bavilivre.bavilivre_backend.domain.model.borrowing.Borrowing;
+import com.bavilivre.bavilivre_backend.domain.model.borrowing.BorrowingId;
 import com.bavilivre.bavilivre_backend.domain.model.user.User;
 import com.bavilivre.bavilivre_backend.domain.model.user.UserId;
 
+import java.time.LocalDate;
+
 public class BorrowBook {
 
-    private final UserId lenderId;
-    private final Book book;
-    private final UserId borrowerId;
+    private final BookRepository bookRepository;
+    private final UserRepository userRepository;
+    private final BorrowingRepository borrowingRepository;
 
-    public BorrowBook(UserId lenderId, Book book, UserId borrowerId) {
-        this.lenderId = lenderId;
-        this.book = book;
-        this.borrowerId = borrowerId;
+    public BorrowBook(
+            BookRepository bookRepository,
+            UserRepository userRepository,
+            BorrowingRepository borrowingRepository
+    ) {
+        this.bookRepository = bookRepository;
+        this.userRepository = userRepository;
+        this.borrowingRepository = borrowingRepository;
     }
 
+    public Borrowing borrow(
+            BorrowingId borrowingId,
+            BookId bookId,
+            UserId borrowerId,
+            LocalDate borrowedAt
+    ) {
+        Book book = bookRepository.findById(bookId)
+                .orElseThrow(() -> new IllegalArgumentException("Book not found"));
 
-    public BorrowedBooksDto fromAUserToAnotherUser() {
-        User borrower = new User(borrowerId);
-        User lender = new User(lenderId);
+        User borrower = userRepository.findById(borrowerId)
+                .orElseThrow(() -> new IllegalArgumentException("Borrower not found"));
 
-        borrower.borrow(book);
-        lender.lend(book);
-
-        return new BorrowDtoMapper().toDto(borrower);
+        User lender = userRepository.findById(book.ownerId())
+                .orElseThrow(() -> new IllegalArgumentException("Lender not found"));
+        Borrowing borrowing = new Borrowing(
+                borrowingId,
+                book.id(),
+                borrower.id(),
+                lender.id(),
+                borrowedAt
+        );
+        return borrowingRepository.save(borrowing);
     }
-
-
 }
