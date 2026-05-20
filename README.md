@@ -1,5 +1,12 @@
 # Bavilivre Backend
 
+![Java](https://img.shields.io/badge/Java-21-orange)
+![Spring Boot](https://img.shields.io/badge/Spring_Boot-3-green)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-blue)
+![Tests](https://img.shields.io/badge/tests-JUnit5%20%2B%20Mockito-success)
+
+Frontend Angular développé séparément.
+
 Backend de **Bavilivre**, une plateforme web de partage de livres entre particuliers.
 
 Ce projet est développé avec **Java 21** et **Spring Boot** dans une approche inspirée du **DDD (Domain-Driven Design)** et de l’**architecture hexagonale**.
@@ -181,3 +188,11 @@ Uses lightweight H2 database.
 
 ```bash
 ./mvnw spring-boot:run --spring.profiles.active=dev
+
+# Next Steps
+
+- REST API endpoints
+- Authentication & JWT
+- Book catalog management
+- AWS deployment
+- Angular frontend integration
