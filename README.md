@@ -1,9 +1,17 @@
 # Bavilivre Backend
 
-![Java](https://img.shields.io/badge/Java-21-orange)
-![Spring Boot](https://img.shields.io/badge/Spring_Boot-3-green)
-![PostgreSQL](https://img.shields.io/badge/PostgreSQL-blue)
-![Tests](https://img.shields.io/badge/tests-JUnit5%20%2B%20Mockito-success)
+![Java](https://img.shields.io/badge/Java%2021-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white)
+![Spring Boot](https://img.shields.io/badge/Spring_Boot-6DB33F?style=for-the-badge&logo=springboot&logoColor=white)
+
+![Hibernate](https://img.shields.io/badge/Hibernate-59666C?style=for-the-badge&logo=hibernate&logoColor=white)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-4169E1?style=for-the-badge&logo=postgresql&logoColor=white)
+
+![JUnit5](https://img.shields.io/badge/JUnit5-25A162?style=for-the-badge&logo=junit5&logoColor=white)
+![Mockito](https://img.shields.io/badge/Mockito-78A641?style=for-the-badge)
+![AssertJ](https://img.shields.io/badge/AssertJ-EFD000?style=for-the-badge)
+
+![DDD](https://img.shields.io/badge/DDD-blueviolet?style=for-the-badge)
+![Hexagonal](https://img.shields.io/badge/Hexagonal_Architecture-6A5ACD?style=for-the-badge)
 
 Backend de **Bavilivre**, une plateforme web de partage de livres entre particuliers.
 
@@ -196,6 +204,55 @@ Uses lightweight H2 database.
 ./mvnw spring-boot:run --spring.profiles.active=dev
 ```
 
+## Production profile
+
+Uses PostgreSQL.
+
+```bash
+./mvnw spring-boot:run --spring.profiles.active=prod
+```
+
+---
+
+# Run Tests
+
+```bash
+./mvnw test
+```
+
+---
+
+# Database
+
+## PostgreSQL
+
+Default local configuration:
+
+```properties
+spring.datasource.url=jdbc:postgresql://localhost:5432/bavilivre
+```
+
+---
+
+# Project Vision
+
+Bavilivre est un projet personnel conçu pour :
+
+* renforcer les compétences backend Java/Spring Boot
+* pratiquer le DDD et l’architecture hexagonale
+* construire une application full-stack réaliste
+* améliorer la qualité de code et les pratiques de testing
+* préparer un futur déploiement cloud AWS
+
+Le projet est organisé avec :
+
+* GitHub Issues
+* Milestones
+* Kanban board
+* Sprint planning
+
+---
+
 # Next Steps
 
 - REST API endpoints
@@ -203,3 +260,11 @@ Uses lightweight H2 database.
 - Book catalog management
 - AWS deployment
 - Angular frontend integration
+
+---
+
+# Author
+
+Shahin Bavili
+
+Full Stack Developer — Java / Spring Boot / Angular
