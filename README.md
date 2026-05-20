@@ -1,7 +1,7 @@
 # Bavilivre Backend
 
 ![Java](https://img.shields.io/badge/Java%2021-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white)
-![Spring Boot](https://img.shields.io/badge/Spring_Boot-6DB33F?style=for-the-badge&logo=springboot&logoColor=white)
+![Spring Boot](https://img.shields.io/badge/Spring_Boot-3-6DB33F?style=for-the-badge&logo=springboot&logoColor=white)
 
 ![Hibernate](https://img.shields.io/badge/Hibernate-59666C?style=for-the-badge&logo=hibernate&logoColor=white)
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-4169E1?style=for-the-badge&logo=postgresql&logoColor=white)
@@ -15,7 +15,7 @@
 
 Backend de **Bavilivre**, une plateforme web de partage de livres entre particuliers.
 
-##Frontend
+## Frontend
 
 Frontend Angular développé séparément.
 
@@ -23,7 +23,7 @@ Frontend Angular développé séparément.
 
   https://github.com/Shahinbavili/Bavilivre-frontend
 
-Ce projet est développé avec **Java 21** et **Spring Boot** dans une approche inspirée du **DDD (Domain-Driven Design)** et de l’**architecture hexagonale**.
+Ce projet est développé avec **Java 21** et **Spring Boot 3** dans une approche inspirée du **DDD (Domain-Driven Design)** et de l’**architecture hexagonale**.
 
 L’objectif principal du projet est de construire une application backend moderne, maintenable et évolutive, tout en renforçant les compétences backend Java/Spring Boot, persistence, testing et architecture logicielle.
 
