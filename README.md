@@ -5,9 +5,15 @@
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-blue)
 ![Tests](https://img.shields.io/badge/tests-JUnit5%20%2B%20Mockito-success)
 
+Backend de **Bavilivre**, une plateforme web de partage de livres entre particuliers.
+
+##Frontend
+
 Frontend Angular développé séparément.
 
-Backend de **Bavilivre**, une plateforme web de partage de livres entre particuliers.
+- Frontend repository:  
+
+  https://github.com/Shahinbavili/Bavilivre-frontend
 
 Ce projet est développé avec **Java 21** et **Spring Boot** dans une approche inspirée du **DDD (Domain-Driven Design)** et de l’**architecture hexagonale**.
 
@@ -188,6 +194,7 @@ Uses lightweight H2 database.
 
 ```bash
 ./mvnw spring-boot:run --spring.profiles.active=dev
+```
 
 # Next Steps
 
