@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface BorrowingSpringDataRepository extends JpaRepository<BorrowingJpaEntity, Integer> {
-    List<BorrowingJpaEntity> findByBorrowerId(Integer borrowerId);
+    List<BorrowingJpaEntity> findByBorrower_Id(Integer borrowerId);
 
-    List<BorrowingJpaEntity> findByLenderId(Integer lenderId);
+    List<BorrowingJpaEntity> findByLender_Id(Integer lenderId);
 }

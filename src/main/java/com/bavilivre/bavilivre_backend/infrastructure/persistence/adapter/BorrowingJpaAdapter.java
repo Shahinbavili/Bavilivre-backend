@@ -32,16 +32,16 @@ public class BorrowingJpaAdapter implements BorrowingRepository {
     }
 
     @Override
-    public List<Borrowing> findByBorrowerId(UserId borrowerId) {
-        return repository.findByBorrowerId(borrowerId.value())
+    public List<Borrowing> findByBorrower_Id(UserId borrowerId) {
+        return repository.findByBorrower_Id(borrowerId.value())
                 .stream()
                 .map(mapper::toDomain)
                 .toList();
     }
 
     @Override
-    public List<Borrowing> findByLenderId(UserId lenderId) {
-        return repository.findByLenderId(lenderId.value())
+    public List<Borrowing> findByLender_Id(UserId lenderId) {
+        return repository.findByLender_Id(lenderId.value())
                 .stream()
                 .map(mapper::toDomain)
                 .toList();

@@ -9,9 +9,11 @@ import com.bavilivre.bavilivre_backend.domain.model.borrowing.Borrowing;
 import com.bavilivre.bavilivre_backend.domain.model.borrowing.BorrowingId;
 import com.bavilivre.bavilivre_backend.domain.model.user.User;
 import com.bavilivre.bavilivre_backend.domain.model.user.UserId;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 
+@Service
 public class BorrowBook {
 
     private final BookRepository bookRepository;

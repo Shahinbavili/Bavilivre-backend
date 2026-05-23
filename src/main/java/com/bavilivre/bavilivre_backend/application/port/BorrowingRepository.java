@@ -11,9 +11,9 @@ public interface BorrowingRepository {
 
     Optional<Borrowing> findById(BorrowingId borrowingId);
 
-    List<Borrowing> findByBorrowerId(UserId borrowerId);
+    List<Borrowing> findByBorrower_Id(UserId borrowerId);
 
-    List<Borrowing> findByLenderId(UserId lenderId);
+    List<Borrowing> findByLender_Id(UserId lenderId);
 
     Borrowing save(Borrowing borrowing);
 }

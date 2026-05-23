@@ -9,6 +9,7 @@ import java.time.LocalDate;
 public class BorrowingJpaEntity {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @ManyToOne

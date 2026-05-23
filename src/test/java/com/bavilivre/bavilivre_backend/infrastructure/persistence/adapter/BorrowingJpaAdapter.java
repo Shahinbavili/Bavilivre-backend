@@ -66,8 +66,8 @@ class BorrowingJpaAdapterTest {
 
         adapter.save(borrowing);
 
-        var borrowedByUser = adapter.findByBorrowerId(new UserId(BORROWER_ID));
-        var lentByUser = adapter.findByLenderId(new UserId(LENDER_ID));
+        var borrowedByUser = adapter.findByBorrower_Id(new UserId(BORROWER_ID));
+        var lentByUser = adapter.findByLender_Id(new UserId(LENDER_ID));
 
         assertThat(borrowedByUser).hasSize(1);
 
