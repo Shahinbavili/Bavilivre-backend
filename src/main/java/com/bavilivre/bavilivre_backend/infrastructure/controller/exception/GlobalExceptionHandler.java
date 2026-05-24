@@ -1,0 +1,20 @@
+package com.bavilivre.bavilivre_backend.infrastructure.controller.exception;
+
+import com.bavilivre.bavilivre_backend.domain.exception.BookAlreadyReturnedException;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
+
+@RestControllerAdvice
+public class GlobalExceptionHandler {
+
+    @ExceptionHandler(BookAlreadyReturnedException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public ErrorResponse handleBookAlreadyReturned(
+            BookAlreadyReturnedException exception
+    ) {
+        return new ErrorResponse(exception.getMessage());
+
+    }
+}
