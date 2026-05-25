@@ -1,6 +1,6 @@
 package com.bavilivre.bavilivre_backend.application.mapper;
 
-import com.bavilivre.bavilivre_backend.application.dto.LentBooksDto;
+import com.bavilivre.bavilivre_backend.infrastructure.controller.response.LentBooksDto;
 import com.bavilivre.bavilivre_backend.domain.model.user.User;
 import org.springframework.stereotype.Component;
 

@@ -1,8 +1,7 @@
 package com.bavilivre.bavilivre_backend.infrastructure.controller.response;
 
-public record ErrorResponse(
-
-        String code,
-        String debugMessage
+public record BookDto(
+        Integer id,
+        Integer ownerId
 ) {
 }

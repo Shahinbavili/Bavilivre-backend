@@ -1,6 +1,6 @@
 package com.bavilivre.bavilivre_backend.application.usecase;
 
-import com.bavilivre.bavilivre_backend.application.dto.LentBooksDto;
+import com.bavilivre.bavilivre_backend.infrastructure.controller.response.LentBooksDto;
 import com.bavilivre.bavilivre_backend.application.mapper.LendDtoMapper;
 import com.bavilivre.bavilivre_backend.domain.model.book.Book;
 import com.bavilivre.bavilivre_backend.domain.model.book.BookId;

@@ -1,6 +1,6 @@
 package com.bavilivre.bavilivre_backend.application.mapper;
 
-import com.bavilivre.bavilivre_backend.application.dto.BorrowedBooksDto;
+import com.bavilivre.bavilivre_backend.infrastructure.controller.response.BorrowedBooksDto;
 import com.bavilivre.bavilivre_backend.domain.model.user.User;
 import org.springframework.stereotype.Component;
 

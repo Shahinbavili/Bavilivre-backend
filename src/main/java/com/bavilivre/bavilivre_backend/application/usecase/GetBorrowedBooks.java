@@ -1,6 +1,6 @@
 package com.bavilivre.bavilivre_backend.application.usecase;
 
-import com.bavilivre.bavilivre_backend.application.dto.BorrowedBooksDto;
+import com.bavilivre.bavilivre_backend.infrastructure.controller.response.BorrowedBooksDto;
 import com.bavilivre.bavilivre_backend.application.mapper.BorrowDtoMapper;
 import com.bavilivre.bavilivre_backend.domain.model.book.Book;
 import com.bavilivre.bavilivre_backend.domain.model.book.BookId;

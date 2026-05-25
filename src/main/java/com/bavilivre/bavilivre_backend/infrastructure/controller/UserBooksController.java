@@ -1,7 +1,7 @@
 package com.bavilivre.bavilivre_backend.infrastructure.controller;
 
-import com.bavilivre.bavilivre_backend.application.dto.BorrowedBooksDto;
-import com.bavilivre.bavilivre_backend.application.dto.LentBooksDto;
+import com.bavilivre.bavilivre_backend.infrastructure.controller.response.BorrowedBooksDto;
+import com.bavilivre.bavilivre_backend.infrastructure.controller.response.LentBooksDto;
 import com.bavilivre.bavilivre_backend.application.usecase.GetBorrowedBooks;
 import com.bavilivre.bavilivre_backend.application.usecase.GetLentBooks;
 import org.springframework.web.bind.annotation.GetMapping;
