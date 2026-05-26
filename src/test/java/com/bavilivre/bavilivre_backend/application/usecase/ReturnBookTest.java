@@ -40,7 +40,7 @@ class ReturnBookTest {
         when(borrowingRepository.save(any(Borrowing.class)))
                 .thenAnswer(invocation -> invocation.getArgument(0));
 
-        Borrowing returnedBorrowing = returnBook.returnBook(
+        Borrowing returnedBorrowing = returnBook.handle(
                 borrowingId,
                 returnedAt
         );

@@ -2,6 +2,7 @@ package com.bavilivre.bavilivre_backend.infrastructure.controller.exception;
 
 import com.bavilivre.bavilivre_backend.domain.exception.BookAlreadyReturnedException;
 import com.bavilivre.bavilivre_backend.domain.exception.BookNotFoundException;
+import com.bavilivre.bavilivre_backend.domain.exception.BorrowingNotFoundException;
 import com.bavilivre.bavilivre_backend.infrastructure.controller.response.ErrorResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -30,6 +31,17 @@ public class GlobalExceptionHandler {
     ) {
         return new ErrorResponse(
                 "BOOK_NOT_FOUND",
+                exception.getMessage()
+        );
+    }
+
+    @ExceptionHandler(BorrowingNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ErrorResponse handleBorrowingNotFound(
+            BorrowingNotFoundException exception
+    ) {
+        return new ErrorResponse(
+                "BORROWING_NOT_FOUND",
                 exception.getMessage()
         );
     }

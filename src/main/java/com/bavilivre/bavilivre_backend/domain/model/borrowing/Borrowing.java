@@ -1,5 +1,6 @@
 package com.bavilivre.bavilivre_backend.domain.model.borrowing;
 
+import com.bavilivre.bavilivre_backend.domain.exception.BookAlreadyReturnedException;
 import com.bavilivre.bavilivre_backend.domain.model.book.BookId;
 import com.bavilivre.bavilivre_backend.domain.model.user.UserId;
 
@@ -41,7 +42,7 @@ public class Borrowing {
 
     public UserId lenderId() {
         return lenderId;
-    }
+}
 
     public LocalDate borrowedAt() {
         return borrowedAt;
@@ -57,7 +58,7 @@ public class Borrowing {
 
     public void returnBook(LocalDate returnedAt) {
         if (isReturned()) {
-            throw new IllegalStateException("Book already returned");
+            throw new BookAlreadyReturnedException(id);
         }
         if (returnedAt.isBefore(borrowedAt)) {
             throw new IllegalArgumentException("Return date cannot be before borrow date");
