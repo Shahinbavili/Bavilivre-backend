@@ -1,9 +1,10 @@
 package com.bavilivre.bavilivre_backend.infrastructure.controller;
 
-import com.bavilivre.bavilivre_backend.infrastructure.controller.response.BookDto;
+import com.bavilivre.bavilivre_backend.application.usecase.GetAvailableBooks;
 import com.bavilivre.bavilivre_backend.application.usecase.GetBookById;
 import com.bavilivre.bavilivre_backend.domain.model.book.Book;
 import com.bavilivre.bavilivre_backend.domain.model.book.BookId;
+import com.bavilivre.bavilivre_backend.infrastructure.controller.response.BookDto;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,18 +17,22 @@ import java.util.List;
 public class BookController {
 
     private final GetBookById getBookById;
+    private final GetAvailableBooks getAvailableBooks;
 
-    public BookController(GetBookById getBookById) {
+    public BookController(GetBookById getBookById, GetAvailableBooks getAvailableBooks) {
         this.getBookById = getBookById;
+        this.getAvailableBooks = getAvailableBooks;
     }
 
-    @GetMapping
-    public List<String> getBooks() {
-        return List.of(
-                "Clean Code",
-                "Domain-Driven Design",
-                "Effective Java"
-        );
+    @GetMapping("/available")
+    public List<BookDto> getAvailableBooks() {
+        return getAvailableBooks.handle()
+                .stream()
+                .map(book -> new BookDto(
+                        book.id().value(),
+                        book.ownerId().value()
+                ))
+                .toList();
     }
 
     @GetMapping("/{id}")
