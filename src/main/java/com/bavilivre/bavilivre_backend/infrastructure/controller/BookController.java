@@ -30,7 +30,12 @@ public class BookController {
                 .stream()
                 .map(book -> new BookDto(
                         book.id().value(),
-                        book.ownerId().value()
+                        book.ownerId().value(),
+                        book.title(),
+                        book.author(),
+                        book.description(),
+                        book.language(),
+                        book.category()
                 ))
                 .toList();
     }
@@ -45,7 +50,12 @@ public class BookController {
 
         return new BookDto(
                 book.id().value(),
-                book.ownerId().value()
+                book.ownerId().value(),
+                book.title(),
+                book.author(),
+                book.description(),
+                book.language(),
+                book.category()
         );
     }
 

@@ -36,7 +36,13 @@ public class BorrowingJpaMapper {
                 borrowing.id().value(),
                 new BookJpaEntity(
                         borrowing.bookId().value(),
-                        new UserJpaEntity(borrowing.lenderId().value())
+                        new UserJpaEntity(borrowing.lenderId().value()),
+                        "",
+                        "",
+                        null,
+                        null,
+                        null
+
                 ),
                 new UserJpaEntity(borrowing.borrowerId().value()),
                 new UserJpaEntity(borrowing.lenderId().value()),

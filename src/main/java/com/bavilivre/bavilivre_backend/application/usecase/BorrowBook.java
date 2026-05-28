@@ -3,6 +3,8 @@ package com.bavilivre.bavilivre_backend.application.usecase;
 import com.bavilivre.bavilivre_backend.application.port.BookRepository;
 import com.bavilivre.bavilivre_backend.application.port.BorrowingRepository;
 import com.bavilivre.bavilivre_backend.application.port.UserRepository;
+import com.bavilivre.bavilivre_backend.domain.exception.BookNotFoundException;
+import com.bavilivre.bavilivre_backend.domain.exception.UserNotFoundException;
 import com.bavilivre.bavilivre_backend.domain.model.book.Book;
 import com.bavilivre.bavilivre_backend.domain.model.book.BookId;
 import com.bavilivre.bavilivre_backend.domain.model.borrowing.Borrowing;
@@ -37,13 +39,13 @@ public class BorrowBook {
             LocalDate borrowedAt
     ) {
         Book book = bookRepository.findById(bookId)
-                .orElseThrow(() -> new IllegalArgumentException("Book not found"));
+                .orElseThrow(() -> new BookNotFoundException(bookId));
 
         User borrower = userRepository.findById(borrowerId)
-                .orElseThrow(() -> new IllegalArgumentException("Borrower not found"));
+                .orElseThrow(() -> new UserNotFoundException(borrowerId));
 
         User lender = userRepository.findById(book.ownerId())
-                .orElseThrow(() -> new IllegalArgumentException("Lender not found"));
+                .orElseThrow(() -> new UserNotFoundException(book.ownerId()));
         Borrowing borrowing = new Borrowing(
                 borrowingId,
                 book.id(),

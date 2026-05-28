@@ -38,7 +38,14 @@ public class BorrowBookTest {
         BorrowingId borrowingId = new BorrowingId(100);
         LocalDate borrowedAt = LocalDate.of(2026, 5, 19);
 
-        Book book = new Book(bookId, lenderId);
+        Book book = new Book(
+                bookId,
+                lenderId,
+                "Clean Architecture",
+                "Robert C. Martin",
+                "A guide to software architecture and clean boundaries.",
+                "en",
+                "Software Engineering");
         User borrower = new User(borrowerId);
         User lender = new User(lenderId);
 

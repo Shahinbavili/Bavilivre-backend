@@ -14,14 +14,24 @@ public class BookJpaMapper {
     public Book toDomain(BookJpaEntity entity) {
         return new Book(
                 new BookId(entity.getId()),
-                new UserId(entity.getOwner().getId())
+                new UserId(entity.getOwner().getId()),
+                entity.getTitle(),
+                entity.getAuthor(),
+                entity.getDescription(),
+                entity.getLanguage(),
+                entity.getCategory()
         );
     }
 
     public BookJpaEntity toEntity(Book book) {
         return new BookJpaEntity(
                 book.id().value(),
-                userMapper.toEntity(book.ownerId())
+                userMapper.toEntity(book.ownerId()),
+                book.title(),
+                book.author(),
+                book.description(),
+                book.language(),
+                book.category()
         );
     }
 }

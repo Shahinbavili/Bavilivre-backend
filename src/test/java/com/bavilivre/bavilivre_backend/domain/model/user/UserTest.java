@@ -14,7 +14,14 @@ public class UserTest {
         final UserId userId = new UserId(2);
         final User user = new User(userId);
         BookId bookId = new BookId(1);
-        final Book book = new Book(bookId, user.id());
+        final Book book = new Book(bookId,
+                user.id(),
+                "Clean Architecture",
+                "Robert C. Martin",
+                "A guide to software architecture and clean boundaries.",
+                "en",
+                "Software Engineering"
+        );
 
 //       When
         user.borrow(book);

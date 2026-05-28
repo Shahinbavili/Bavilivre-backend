@@ -97,6 +97,15 @@ class BorrowingJpaAdapterTest {
     private void saveUsersAndBook() {
         UserJpaEntity lender = userSpringDataRepository.save(new UserJpaEntity(1));
         userSpringDataRepository.save(new UserJpaEntity(2));
-        bookSpringDataRepository.save(new BookJpaEntity(10, lender));
+        bookSpringDataRepository.save(new BookJpaEntity(
+                        10,
+                        lender,
+                        "Clean Code",
+                        "Robert C. Martin",
+                        "Clean code principles",
+                        "en",
+                        "Software Engineering"
+                )
+        );
     }
 }
