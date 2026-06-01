@@ -46,8 +46,8 @@ public class BorrowBookTest {
                 "A guide to software architecture and clean boundaries.",
                 "en",
                 "Software Engineering");
-        User borrower = new User(borrowerId);
-        User lender = new User(lenderId);
+        User borrower = new User(borrowerId, "Shahin");
+        User lender = new User(lenderId, "Bob");
 
         when(bookRepository.findById(bookId)).thenReturn(Optional.of(book));
         when(userRepository.findById(borrowerId)).thenReturn(Optional.of(borrower));

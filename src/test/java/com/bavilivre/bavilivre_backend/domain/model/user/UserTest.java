@@ -12,7 +12,7 @@ public class UserTest {
     public void shouldHaveAListOfBorrowedBooks() {
 //       Given
         final UserId userId = new UserId(2);
-        final User user = new User(userId);
+        final User user = new User(userId, "Shahin");
         BookId bookId = new BookId(1);
         final Book book = new Book(bookId,
                 user.id(),

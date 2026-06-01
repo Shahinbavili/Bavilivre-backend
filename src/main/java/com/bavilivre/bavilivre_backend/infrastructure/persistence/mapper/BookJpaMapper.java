@@ -4,6 +4,7 @@ import com.bavilivre.bavilivre_backend.domain.model.book.Book;
 import com.bavilivre.bavilivre_backend.domain.model.book.BookId;
 import com.bavilivre.bavilivre_backend.domain.model.user.UserId;
 import com.bavilivre.bavilivre_backend.infrastructure.persistence.entity.BookJpaEntity;
+import com.bavilivre.bavilivre_backend.infrastructure.persistence.entity.UserJpaEntity;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -26,7 +27,10 @@ public class BookJpaMapper {
     public BookJpaEntity toEntity(Book book) {
         return new BookJpaEntity(
                 book.id().value(),
-                userMapper.toEntity(book.ownerId()),
+                new UserJpaEntity(
+                        book.ownerId().value(),
+                        "Unknown"
+                ),
                 book.title(),
                 book.author(),
                 book.description(),

@@ -17,7 +17,10 @@ public class GetLentBooks {
     }
 
     public LentBooksDto handle(Integer userId) {
-        User lender = new User(new UserId(userId));
+        User lender = new User(
+                new UserId(userId),
+                "User " + userId
+        );
 
         //Temporary simulation
         lender.lend(new Book(

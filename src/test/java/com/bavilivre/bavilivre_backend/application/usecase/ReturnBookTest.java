@@ -22,7 +22,7 @@ class ReturnBookTest {
 
         ReturnBook returnBook = new ReturnBook(borrowingRepository);
 
-        BorrowingId borrowingId = new BorrowingId(100);
+        BorrowingId borrowingId = null;
         LocalDate borrowedAt = LocalDate.of(2026, 5, 19);
         LocalDate returnedAt = LocalDate.of(2026, 5, 24);
 

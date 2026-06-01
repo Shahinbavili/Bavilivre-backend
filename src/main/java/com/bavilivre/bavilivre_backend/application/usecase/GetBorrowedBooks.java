@@ -19,7 +19,10 @@ public class GetBorrowedBooks {
 
     public BorrowedBooksDto handle(Integer userId) {
         // temporary simulation
-        User borrower = new User(new UserId(userId));
+        User borrower = new User(
+                new UserId(userId),
+                "User " + userId
+        );
 
         borrower.borrow(new Book(
                 new BookId(1),

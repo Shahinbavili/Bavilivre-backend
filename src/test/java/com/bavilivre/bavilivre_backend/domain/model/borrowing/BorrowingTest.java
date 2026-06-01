@@ -1,5 +1,6 @@
 package com.bavilivre.bavilivre_backend.domain.model.borrowing;
 
+import com.bavilivre.bavilivre_backend.domain.exception.BookAlreadyReturnedException;
 import com.bavilivre.bavilivre_backend.domain.model.book.BookId;
 import com.bavilivre.bavilivre_backend.domain.model.user.UserId;
 import org.junit.jupiter.api.Test;
@@ -69,8 +70,8 @@ class BorrowingTest {
         assertThatThrownBy(() ->
                 borrowing.returnBook(LocalDate.of(2026, 5, 6))
         )
-                .isInstanceOf(IllegalStateException.class)
-                .hasMessage("Book already returned");
+                .isInstanceOf(BookAlreadyReturnedException.class)
+                .hasMessage("Borrowing 1 is already returned");
     }
 
     @Test

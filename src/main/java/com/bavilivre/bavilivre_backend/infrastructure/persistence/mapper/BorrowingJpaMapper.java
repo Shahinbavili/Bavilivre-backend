@@ -32,11 +32,18 @@ public class BorrowingJpaMapper {
 
 
     public BorrowingJpaEntity toEntity(Borrowing borrowing) {
+        Integer entityId = borrowing.id() == null
+                ? null
+                : borrowing.id().value();
+
         return new BorrowingJpaEntity(
-                borrowing.id().value(),
+                entityId,
                 new BookJpaEntity(
                         borrowing.bookId().value(),
-                        new UserJpaEntity(borrowing.lenderId().value()),
+                        new UserJpaEntity(
+                                borrowing.lenderId().value(),
+                                "Unknown"
+                        ),
                         "",
                         "",
                         null,
@@ -44,8 +51,14 @@ public class BorrowingJpaMapper {
                         null
 
                 ),
-                new UserJpaEntity(borrowing.borrowerId().value()),
-                new UserJpaEntity(borrowing.lenderId().value()),
+                new UserJpaEntity(
+                        borrowing.borrowerId().value(),
+                        "Unknown"
+                ),
+                new UserJpaEntity(
+                        borrowing.lenderId().value(),
+                        "Unknown"
+                ),
                 borrowing.borrowedAt(),
                 borrowing.returnedAt()
         );

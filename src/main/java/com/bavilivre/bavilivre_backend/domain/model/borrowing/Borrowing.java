@@ -42,7 +42,7 @@ public class Borrowing {
 
     public UserId lenderId() {
         return lenderId;
-}
+    }
 
     public LocalDate borrowedAt() {
         return borrowedAt;
