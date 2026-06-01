@@ -8,18 +8,25 @@ import java.util.Set;
 
 public class User {
     private final UserId userId;
+    private final String displayName;
+
 
     private final Set<Book> borrowedBooks;
     private final Set<Book> lentBooks;
 
-    public User(UserId userId) {
+    public User(UserId userId, String displayName) {
         this.userId = userId;
+        this.displayName = displayName;
         this.borrowedBooks = new HashSet<>();
         this.lentBooks = new HashSet<>();
     }
 
     public UserId id() {
         return userId;
+    }
+
+    public String displayName() {
+        return displayName;
     }
 
     public boolean hasBorrowed(Book book) {

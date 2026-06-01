@@ -1,7 +1,11 @@
-INSERT INTO users (id)
-VALUES (1);
-INSERT INTO users (id)
-VALUES (2);
+INSERT INTO users (id, display_name)
+VALUES (1, 'Shahin');
+
+INSERT INTO users (id, display_name)
+VALUES (2, 'Alice');
+
+INSERT INTO users (id, display_name)
+VALUES (3, 'Bob');
 
 INSERT INTO books (id,
                    owner_id,
@@ -32,6 +36,21 @@ VALUES (2,
         'A reference book about domain-driven design.',
         'en',
         'Software Architecture');
+
+INSERT INTO books (id,
+                   owner_id,
+                   title,
+                   author,
+                   description,
+                   language,
+                   category)
+VALUES (3,
+        3,
+        'Refactoring',
+        'Martin Fowler',
+        'Improving the design of existing code.',
+        'en',
+        'Software Engineering');
 
 INSERT INTO borrowings (id,
                         book_id,

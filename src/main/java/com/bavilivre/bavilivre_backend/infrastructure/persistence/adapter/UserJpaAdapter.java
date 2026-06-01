@@ -38,7 +38,7 @@ public class UserJpaAdapter implements UserRepository {
     @Override
     public User save(User user) {
 
-        var entity = mapper.toEntity(user.id());
+        var entity = mapper.toEntity(user);
 
         var savedEntity = repository.save(entity);
 

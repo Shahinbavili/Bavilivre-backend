@@ -10,13 +10,15 @@ public class UserJpaMapper {
 
     public User toDomain(UserJpaEntity entity) {
         return new User(
-                new UserId(entity.getId())
+                new UserId(entity.getId()),
+                entity.getDisplayName()
         );
     }
 
-    public UserJpaEntity toEntity(UserId userId) {
+    public UserJpaEntity toEntity(User user) {
         return new UserJpaEntity(
-                userId.value()
+                user.id().value(),
+                user.displayName()
         );
     }
 }
