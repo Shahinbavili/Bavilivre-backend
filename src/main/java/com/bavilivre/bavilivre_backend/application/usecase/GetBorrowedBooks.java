@@ -36,7 +36,7 @@ public class GetBorrowedBooks {
         borrower.borrow(
                 new Book(
                         new BookId(2),
-                        new UserId(11),
+                        new UserId(3),
                         "Domain-Driven Design",
                         "Eric Evans",
                         "A book about domain-driven design and software architecture.",

@@ -64,3 +64,24 @@ VALUES (1,
         1,
         CURRENT_DATE,
         NULL);
+
+INSERT INTO user_accounts (user_id,
+                           email,
+                           password_hash)
+VALUES (1,
+        'shahin@bavilivre.dev',
+        'password');
+
+INSERT INTO user_accounts (user_id,
+                           email,
+                           password_hash)
+VALUES (2,
+        'alice@bavilivre.dev',
+        'password');
+
+INSERT INTO user_accounts (user_id,
+                           email,
+                           password_hash)
+VALUES (3,
+        'bob@bavilivre.dev',
+        'password');
