@@ -25,13 +25,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 })
 class BorrowingJpaAdapterTest {
 
-    private static final int BORROWING_ID = 100;
     private static final int BOOK_ID = 10;
-    private static final int LENDER_ID = 1;
-    private static final int BORROWER_ID = 2;
 
     private static final LocalDate BORROWED_AT = LocalDate.of(2026, 5, 19);
     private static final LocalDate RETURNED_AT = LocalDate.of(2026, 5, 24);
+
+    private Integer lenderId;
+    private Integer borrowerId;
 
     @Autowired
     private BorrowingSpringDataRepository borrowingSpringDataRepository;
@@ -50,14 +50,16 @@ class BorrowingJpaAdapterTest {
                 borrowingSpringDataRepository,
                 new BorrowingJpaMapper()
         );
+
+        saveUsersAndBook();
+
         borrowing = new Borrowing(
                 null,
                 new BookId(10),
-                new UserId(2),
-                new UserId(1),
+                new UserId(borrowerId),
+                new UserId(lenderId),
                 BORROWED_AT
         );
-        saveUsersAndBook();
     }
 
 
@@ -69,17 +71,17 @@ class BorrowingJpaAdapterTest {
 
         adapter.save(borrowing);
 
-        var borrowedByUser = adapter.findByBorrower_Id(new UserId(BORROWER_ID));
-        var lentByUser = adapter.findByLender_Id(new UserId(LENDER_ID));
+        var borrowedByUser = adapter.findByBorrower_Id(new UserId(borrowerId));
+        var lentByUser = adapter.findByLender_Id(new UserId(lenderId));
 
         assertThat(borrowedByUser).hasSize(1);
 
         assertThat(borrowedByUser.getFirst().bookId()).isEqualTo(new BookId(BOOK_ID));
-        assertThat(borrowedByUser.getFirst().borrowerId()).isEqualTo(new UserId(BORROWER_ID));
+        assertThat(borrowedByUser.getFirst().borrowerId()).isEqualTo(new UserId(borrowerId));
 
         assertThat(lentByUser).hasSize(1);
 
-        assertThat(lentByUser.getFirst().lenderId()).isEqualTo(new UserId(LENDER_ID));
+        assertThat(lentByUser.getFirst().lenderId()).isEqualTo(new UserId(lenderId));
     }
 
     @Test
@@ -89,7 +91,7 @@ class BorrowingJpaAdapterTest {
 
         adapter.save(borrowing);
 
-        var savedBorrowing = adapter.findByBorrower_Id(new UserId(BORROWER_ID));
+        var savedBorrowing = adapter.findByBorrower_Id(new UserId(borrowerId));
 
         assertThat(savedBorrowing).hasSize(1);
         assertThat(savedBorrowing.getFirst().returnedAt())
@@ -98,9 +100,14 @@ class BorrowingJpaAdapterTest {
     }
 
     private void saveUsersAndBook() {
-        UserJpaEntity lender = userSpringDataRepository.save(new UserJpaEntity(1, "Shahin"));
-        userSpringDataRepository.save(new UserJpaEntity(2, "Alice"));
-        bookSpringDataRepository.save(new BookJpaEntity(
+        UserJpaEntity lender = userSpringDataRepository.save(new UserJpaEntity(null, "Shahin"));
+        UserJpaEntity borrower = userSpringDataRepository.save(new UserJpaEntity(null, "Alice"));
+
+        lenderId = lender.getId();
+        borrowerId = borrower.getId();
+
+        bookSpringDataRepository.save(
+                new BookJpaEntity(
                         10,
                         lender,
                         "Clean Code",

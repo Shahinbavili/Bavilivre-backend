@@ -16,8 +16,9 @@ public class UserJpaMapper {
     }
 
     public UserJpaEntity toEntity(User user) {
+        Integer id = user.id() == null ? null : user.id().value();
         return new UserJpaEntity(
-                user.id().value(),
+                id,
                 user.displayName()
         );
     }
