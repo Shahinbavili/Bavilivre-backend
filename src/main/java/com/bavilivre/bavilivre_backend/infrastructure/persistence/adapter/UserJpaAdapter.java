@@ -3,6 +3,7 @@ package com.bavilivre.bavilivre_backend.infrastructure.persistence.adapter;
 import com.bavilivre.bavilivre_backend.application.port.UserRepository;
 import com.bavilivre.bavilivre_backend.domain.model.user.User;
 import com.bavilivre.bavilivre_backend.domain.model.user.UserId;
+import com.bavilivre.bavilivre_backend.infrastructure.persistence.entity.UserJpaEntity;
 import com.bavilivre.bavilivre_backend.infrastructure.persistence.mapper.UserJpaMapper;
 import com.bavilivre.bavilivre_backend.infrastructure.persistence.repository.UserSpringDataRepository;
 import org.springframework.stereotype.Repository;
@@ -33,6 +34,14 @@ public class UserJpaAdapter implements UserRepository {
                 .stream()
                 .map(mapper::toDomain)
                 .toList();
+    }
+
+    @Override
+    public User create(String displayName) {
+        var entity = new UserJpaEntity(null, displayName);
+        var savedEntity = repository.save(entity);
+
+        return mapper.toDomain(savedEntity);
     }
 
     @Override
