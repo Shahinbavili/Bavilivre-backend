@@ -7,6 +7,9 @@ VALUES (2, 'Alice');
 INSERT INTO users (id, display_name)
 VALUES (3, 'Bob');
 
+ALTER TABLE users
+    ALTER COLUMN id RESTART WITH 4;
+
 INSERT INTO books (id,
                    owner_id,
                    title,
