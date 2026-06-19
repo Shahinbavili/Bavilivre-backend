@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.time.LocalDate;
 
 @RestController
-@RequestMapping("/borrowings")
+@RequestMapping("/api/borrowings")
 public class BorrowingReturnController {
 
     private final ReturnBook returnBook;

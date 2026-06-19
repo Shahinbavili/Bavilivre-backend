@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDate;
 
 @RestController
-@RequestMapping("/books")
+@RequestMapping("/api/books")
 public class BorrowingController {
 
     private final BorrowBook borrowBook;
