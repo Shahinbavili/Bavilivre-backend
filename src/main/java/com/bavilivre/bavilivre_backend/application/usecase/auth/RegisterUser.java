@@ -5,6 +5,8 @@ import com.bavilivre.bavilivre_backend.application.port.UserAccountRepository;
 import com.bavilivre.bavilivre_backend.application.port.UserRepository;
 import com.bavilivre.bavilivre_backend.domain.model.user.User;
 import com.bavilivre.bavilivre_backend.domain.model.useraccount.UserAccount;
+import com.bavilivre.bavilivre_backend.infrastructure.controller.exception.AuthenticationErrorCode;
+import com.bavilivre.bavilivre_backend.infrastructure.controller.exception.AuthenticationException;
 import com.bavilivre.bavilivre_backend.infrastructure.controller.request.RegisterRequest;
 import org.springframework.stereotype.Service;
 
@@ -23,7 +25,9 @@ public class RegisterUser {
 
     public UserRegistered register(RegisterRequest request) {
         if (userAccountRepository.existsByEmail(request.email())) {
-            throw new IllegalArgumentException("Email already used");
+            throw new AuthenticationException(
+                    AuthenticationErrorCode.EMAIL_ALREADY_REGISTERED
+            );
         }
 
         User savedUser = userRepository.create(request.displayName());

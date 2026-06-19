@@ -3,6 +3,8 @@ package com.bavilivre.bavilivre_backend.application.usecase.auth;
 import com.bavilivre.bavilivre_backend.application.port.PasswordHasher;
 import com.bavilivre.bavilivre_backend.application.port.UserAccountRepository;
 import com.bavilivre.bavilivre_backend.domain.model.useraccount.UserAccount;
+import com.bavilivre.bavilivre_backend.infrastructure.controller.exception.AuthenticationErrorCode;
+import com.bavilivre.bavilivre_backend.infrastructure.controller.exception.AuthenticationException;
 import com.bavilivre.bavilivre_backend.infrastructure.controller.request.LoginRequest;
 import com.bavilivre.bavilivre_backend.infrastructure.controller.response.AuthResponse;
 import com.bavilivre.bavilivre_backend.infrastructure.security.JwtService;
@@ -30,7 +32,9 @@ public class LoginUser {
                 account.passwordHash()
         );
         if (!passwordMatches) {
-            throw new IllegalArgumentException("Invalid credentials");
+            throw new AuthenticationException(
+                    AuthenticationErrorCode.INVALID_CREDENTIALS
+            );
         }
 
         String token = jwtService.generateToken(account.email());

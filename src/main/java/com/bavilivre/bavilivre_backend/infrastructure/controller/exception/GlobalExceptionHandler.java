@@ -16,11 +16,10 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(BookAlreadyReturnedException.class)
     @ResponseStatus(HttpStatus.CONFLICT)
     public ErrorResponse handleBookAlreadyReturned(
-            BookAlreadyReturnedException exception
+            BookAlreadyReturnedException ignored
     ) {
         return new ErrorResponse(
-                ("BOOK_ALREADY_RETURNED"),
-                exception.getMessage()
+                ("BOOK_ALREADY_RETURNED")
         );
 
     }
@@ -28,33 +27,40 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(BookNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ErrorResponse handleBookNotFound(
-            BookNotFoundException exception
+            BookNotFoundException ignored
     ) {
         return new ErrorResponse(
-                "BOOK_NOT_FOUND",
-                exception.getMessage()
+                "BOOK_NOT_FOUND"
         );
     }
 
     @ExceptionHandler(BorrowingNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ErrorResponse handleBorrowingNotFound(
-            BorrowingNotFoundException exception
+            BorrowingNotFoundException ignored
     ) {
         return new ErrorResponse(
-                "BORROWING_NOT_FOUND",
-                exception.getMessage()
+                "BORROWING_NOT_FOUND"
         );
     }
 
     @ExceptionHandler(UserNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ErrorResponse handleUserNotFound(
-            UserNotFoundException exception
+            UserNotFoundException ignored
     ) {
         return new ErrorResponse(
-                "USER_NOT_FOUND",
-                exception.getMessage()
+                "USER_NOT_FOUND"
+        );
+    }
+
+    @ExceptionHandler(AuthenticationException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorResponse handleAuthenticationException(
+            AuthenticationException exception
+    ) {
+        return new ErrorResponse(
+                exception.code().name()
         );
     }
 }
