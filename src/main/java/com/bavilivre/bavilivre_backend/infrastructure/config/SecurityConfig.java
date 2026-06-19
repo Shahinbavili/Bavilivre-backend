@@ -1,5 +1,6 @@
 package com.bavilivre.bavilivre_backend.infrastructure.config;
 
+import com.bavilivre.bavilivre_backend.infrastructure.security.CustomAuthenticationEntryPoint;
 import com.bavilivre.bavilivre_backend.infrastructure.security.JwtAuthenticationFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,9 +17,11 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig {
 
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
+    private final CustomAuthenticationEntryPoint authenticationEntryPoint;
 
-    public SecurityConfig(JwtAuthenticationFilter jwtAuthenticationFilter) {
+    public SecurityConfig(JwtAuthenticationFilter jwtAuthenticationFilter, CustomAuthenticationEntryPoint authenticationEntryPoint) {
         this.jwtAuthenticationFilter = jwtAuthenticationFilter;
+        this.authenticationEntryPoint = authenticationEntryPoint;
     }
 
     @Bean
@@ -32,13 +35,14 @@ public class SecurityConfig {
                 )
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(
-                                "auth/register",
+                                "/auth/register",
                                 "/auth/login",
                                 "/h2-console/**",
                                 "/actuator/health"
                         ).permitAll()
                         .anyRequest().authenticated()
-                )
+                ).exceptionHandling(exception ->
+                        exception.authenticationEntryPoint(authenticationEntryPoint))
                 .addFilterBefore(
                         jwtAuthenticationFilter,
                         UsernamePasswordAuthenticationFilter.class
