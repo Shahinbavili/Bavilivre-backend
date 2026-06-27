@@ -3,6 +3,7 @@ package com.bavilivre.bavilivre_backend.application.usecase;
 import com.bavilivre.bavilivre_backend.application.port.BookRepository;
 import com.bavilivre.bavilivre_backend.application.port.BorrowingRepository;
 import com.bavilivre.bavilivre_backend.application.port.UserRepository;
+import com.bavilivre.bavilivre_backend.domain.exception.BookNotAvailableException;
 import com.bavilivre.bavilivre_backend.domain.exception.BookNotFoundException;
 import com.bavilivre.bavilivre_backend.domain.exception.UserNotFoundException;
 import com.bavilivre.bavilivre_backend.domain.model.book.Book;
@@ -41,6 +42,10 @@ public class BorrowBook {
         Book book = bookRepository.findById(bookId)
                 .orElseThrow(() -> new BookNotFoundException(bookId));
 
+        if (!book.available()) {
+            throw new BookNotAvailableException(bookId);
+        }
+
         User borrower = userRepository.findById(borrowerId)
                 .orElseThrow(() -> new UserNotFoundException(borrowerId));
 
@@ -53,6 +58,10 @@ public class BorrowBook {
                 lender.id(),
                 borrowedAt
         );
+
+        Book borrowedBook = book.markAsBorrowed();
+        bookRepository.save(borrowedBook);
+
         return borrowingRepository.save(borrowing);
     }
 }
