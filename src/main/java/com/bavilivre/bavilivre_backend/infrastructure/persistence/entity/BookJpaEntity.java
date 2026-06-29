@@ -26,6 +26,9 @@ public class BookJpaEntity {
 
     private String category;
 
+    @Column(nullable = false)
+    private boolean available;
+
     protected BookJpaEntity() {
     }
 
@@ -36,7 +39,8 @@ public class BookJpaEntity {
             String author,
             String description,
             String language,
-            String category
+            String category,
+            boolean available
     ) {
         this.id = id;
         this.owner = owner;
@@ -45,6 +49,7 @@ public class BookJpaEntity {
         this.description = description;
         this.language = language;
         this.category = category;
+        this.available = available;
     }
 
     public Integer getId() {
@@ -73,5 +78,13 @@ public class BookJpaEntity {
 
     public String getCategory() {
         return category;
+    }
+
+    public boolean isAvailable() {
+        return available;
+    }
+
+    public void setAvailable(boolean available) {
+        this.available = available;
     }
 }

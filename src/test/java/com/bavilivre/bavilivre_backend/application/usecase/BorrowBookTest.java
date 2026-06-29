@@ -3,6 +3,7 @@ package com.bavilivre.bavilivre_backend.application.usecase;
 import com.bavilivre.bavilivre_backend.application.port.BookRepository;
 import com.bavilivre.bavilivre_backend.application.port.BorrowingRepository;
 import com.bavilivre.bavilivre_backend.application.port.UserRepository;
+import com.bavilivre.bavilivre_backend.domain.exception.BookNotAvailableException;
 import com.bavilivre.bavilivre_backend.domain.model.book.Book;
 import com.bavilivre.bavilivre_backend.domain.model.book.BookId;
 import com.bavilivre.bavilivre_backend.domain.model.borrowing.Borrowing;
@@ -15,6 +16,7 @@ import java.time.LocalDate;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -45,7 +47,9 @@ public class BorrowBookTest {
                 "Robert C. Martin",
                 "A guide to software architecture and clean boundaries.",
                 "en",
-                "Software Engineering");
+                "Software Engineering",
+                true
+        );
         User borrower = new User(borrowerId, "Shahin");
         User lender = new User(lenderId, "Bob");
 
@@ -71,6 +75,51 @@ public class BorrowBookTest {
         verify(userRepository).findById(borrowerId);
         verify(userRepository).findById(lenderId);
         verify(borrowingRepository).save(any(Borrowing.class));
+        verify(bookRepository).save(book.markAsBorrowed());
+    }
+
+    @Test
+    void shouldNotBorrowAnUnavailableBook() {
+        BookRepository bookRepository = mock(BookRepository.class);
+        UserRepository userRepository = mock(UserRepository.class);
+        BorrowingRepository borrowingRepository = mock(BorrowingRepository.class);
+
+        BorrowBook borrowBook = new BorrowBook(
+                bookRepository,
+                userRepository,
+                borrowingRepository
+        );
+
+        BookId bookId = new BookId(7);
+        UserId lenderId = new UserId(1);
+        UserId borrowerId = new UserId(2);
+        BorrowingId borrowingId = new BorrowingId(100);
+        LocalDate borrowedAt = LocalDate.of(2026, 5, 19);
+
+        Book unavailableBook = new Book(
+                bookId,
+                lenderId,
+                "Clean Architecture",
+                "Robert C. Martin",
+                "A guide to software architecture and clean boundaries.",
+                "en",
+                "Software Engineering",
+                false
+        );
+
+        when(bookRepository.findById(bookId)).thenReturn(Optional.of(unavailableBook));
+
+        assertThatThrownBy(() -> borrowBook.borrow(
+                borrowingId,
+                bookId,
+                borrowerId,
+                borrowedAt
+        ))
+                .isInstanceOf(BookNotAvailableException.class);
+
+        verify(bookRepository).findById(bookId);
+        verifyNoInteractions(userRepository);
+        verifyNoInteractions(borrowingRepository);
     }
 
 }

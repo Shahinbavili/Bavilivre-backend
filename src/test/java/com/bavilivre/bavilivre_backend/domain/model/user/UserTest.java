@@ -20,7 +20,8 @@ public class UserTest {
                 "Robert C. Martin",
                 "A guide to software architecture and clean boundaries.",
                 "en",
-                "Software Engineering"
+                "Software Engineering",
+                true
         );
 
 //       When

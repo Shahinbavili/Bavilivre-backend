@@ -10,8 +10,6 @@ import org.springframework.stereotype.Component;
 @Component
 public class BookJpaMapper {
 
-    private final UserJpaMapper userMapper = new UserJpaMapper();
-
     public Book toDomain(BookJpaEntity entity) {
         return new Book(
                 new BookId(entity.getId()),
@@ -20,7 +18,8 @@ public class BookJpaMapper {
                 entity.getAuthor(),
                 entity.getDescription(),
                 entity.getLanguage(),
-                entity.getCategory()
+                entity.getCategory(),
+                entity.isAvailable()
         );
     }
 
@@ -35,7 +34,8 @@ public class BookJpaMapper {
                 book.author(),
                 book.description(),
                 book.language(),
-                book.category()
+                book.category(),
+                book.available()
         );
     }
 }

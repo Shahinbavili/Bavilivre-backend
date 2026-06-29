@@ -30,7 +30,8 @@ public class GetLentBooks {
                 "Joshua Bloch",
                 "Best practices for modern Java development.",
                 "en",
-                "Programming"
+                "Programming",
+                true
         ));
         lender.lend(new Book(
                 new BookId(4),
@@ -39,7 +40,8 @@ public class GetLentBooks {
                 "Martin Fowler",
                 "Improving the design of existing code.",
                 "en",
-                "Software Engineering"
+                "Software Engineering",
+                true
         ));
 
         return lendDtoMapper.toDto(lender);

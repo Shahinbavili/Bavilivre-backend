@@ -1,9 +1,6 @@
 package com.bavilivre.bavilivre_backend.infrastructure.controller.exception;
 
-import com.bavilivre.bavilivre_backend.domain.exception.BookAlreadyReturnedException;
-import com.bavilivre.bavilivre_backend.domain.exception.BookNotFoundException;
-import com.bavilivre.bavilivre_backend.domain.exception.BorrowingNotFoundException;
-import com.bavilivre.bavilivre_backend.domain.exception.UserNotFoundException;
+import com.bavilivre.bavilivre_backend.domain.exception.*;
 import com.bavilivre.bavilivre_backend.infrastructure.controller.response.ErrorResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -61,6 +58,16 @@ public class GlobalExceptionHandler {
     ) {
         return new ErrorResponse(
                 exception.code().name()
+        );
+    }
+
+    @ExceptionHandler(BookNotAvailableException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public ErrorResponse handleBookNotAvailable(
+            BookNotAvailableException ignored
+    ) {
+        return new ErrorResponse(
+                "BOOK_NOT_AVAILABLE"
         );
     }
 }

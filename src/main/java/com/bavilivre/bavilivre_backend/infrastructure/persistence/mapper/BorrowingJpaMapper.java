@@ -48,8 +48,8 @@ public class BorrowingJpaMapper {
                         "",
                         null,
                         null,
-                        null
-
+                        null,
+                        false
                 ),
                 new UserJpaEntity(
                         borrowing.borrowerId().value(),

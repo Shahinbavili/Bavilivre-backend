@@ -114,7 +114,8 @@ class BorrowingJpaAdapterTest {
                         "Robert C. Martin",
                         "Clean code principles",
                         "en",
-                        "Software Engineering"
+                        "Software Engineering",
+                        true
                 )
         );
     }
