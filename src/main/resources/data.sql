@@ -16,14 +16,16 @@ INSERT INTO books (id,
                    author,
                    description,
                    language,
-                   category)
+                   category,
+                   available)
 VALUES (1,
         1,
         'Clean Code',
         'Robert C. Martin',
         'A practical guide to writing clean and maintainable code.',
         'en',
-        'Software Engineering');
+        'Software Engineering',
+        true);
 
 INSERT INTO books (id,
                    owner_id,
@@ -31,14 +33,16 @@ INSERT INTO books (id,
                    author,
                    description,
                    language,
-                   category)
+                   category,
+                   available)
 VALUES (2,
         1,
         'Domain-Driven Design',
         'Eric Evans',
         'A reference book about domain-driven design.',
         'en',
-        'Software Architecture');
+        'Software Architecture',
+        true);
 
 INSERT INTO books (id,
                    owner_id,
@@ -46,14 +50,16 @@ INSERT INTO books (id,
                    author,
                    description,
                    language,
-                   category)
+                   category,
+                   available)
 VALUES (3,
         3,
         'Refactoring',
         'Martin Fowler',
         'Improving the design of existing code.',
         'en',
-        'Software Engineering');
+        'Software Engineering',
+        true);
 
 INSERT INTO borrowings (id,
                         book_id,
