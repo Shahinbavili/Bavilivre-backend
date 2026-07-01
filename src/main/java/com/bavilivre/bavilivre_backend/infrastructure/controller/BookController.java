@@ -1,14 +1,15 @@
 package com.bavilivre.bavilivre_backend.infrastructure.controller;
 
+import com.bavilivre.bavilivre_backend.application.usecase.AddBook;
 import com.bavilivre.bavilivre_backend.application.usecase.GetAvailableBooks;
 import com.bavilivre.bavilivre_backend.application.usecase.GetBookById;
 import com.bavilivre.bavilivre_backend.domain.model.book.Book;
 import com.bavilivre.bavilivre_backend.domain.model.book.BookId;
+import com.bavilivre.bavilivre_backend.domain.model.user.UserId;
+import com.bavilivre.bavilivre_backend.infrastructure.controller.request.AddBookRequest;
 import com.bavilivre.bavilivre_backend.infrastructure.controller.response.BookDto;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.bavilivre.bavilivre_backend.infrastructure.persistence.mapper.BookDtoMapper;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -18,25 +19,21 @@ public class BookController {
 
     private final GetBookById getBookById;
     private final GetAvailableBooks getAvailableBooks;
+    private final AddBook addBook;
+    private final BookDtoMapper bookDtoMapper;
 
-    public BookController(GetBookById getBookById, GetAvailableBooks getAvailableBooks) {
+    public BookController(GetBookById getBookById, GetAvailableBooks getAvailableBooks, AddBook addBook, BookDtoMapper bookDtoMapper) {
         this.getBookById = getBookById;
         this.getAvailableBooks = getAvailableBooks;
+        this.addBook = addBook;
+        this.bookDtoMapper = bookDtoMapper;
     }
 
     @GetMapping("/available")
     public List<BookDto> getAvailableBooks() {
         return getAvailableBooks.handle()
                 .stream()
-                .map(book -> new BookDto(
-                        book.id().value(),
-                        book.ownerId().value(),
-                        book.title(),
-                        book.author(),
-                        book.description(),
-                        book.language(),
-                        book.category()
-                ))
+                .map(bookDtoMapper::toDto)
                 .toList();
     }
 
@@ -48,15 +45,23 @@ public class BookController {
                 new BookId(id)
         );
 
-        return new BookDto(
-                book.id().value(),
-                book.ownerId().value(),
-                book.title(),
-                book.author(),
-                book.description(),
-                book.language(),
-                book.category()
+        return bookDtoMapper.toDto(book);
+    }
+
+    @PostMapping
+    public BookDto addBook(
+            @RequestBody AddBookRequest request
+    ) {
+        Book createdBook = addBook.handle(
+                new UserId(1), // temporaire
+                request.title(),
+                request.author(),
+                request.description(),
+                request.language(),
+                request.category()
         );
+
+        return bookDtoMapper.toDto(createdBook);
     }
 
 }
