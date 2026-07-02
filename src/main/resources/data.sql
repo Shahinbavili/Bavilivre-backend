@@ -61,6 +61,9 @@ VALUES (3,
         'Software Engineering',
         true);
 
+ALTER TABLE books
+    ALTER COLUMN id RESTART WITH 4;
+
 INSERT INTO borrowings (id,
                         book_id,
                         borrower_id,

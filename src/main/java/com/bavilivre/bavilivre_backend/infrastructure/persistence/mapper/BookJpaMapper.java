@@ -24,8 +24,11 @@ public class BookJpaMapper {
     }
 
     public BookJpaEntity toEntity(Book book) {
+
+        Integer entityId = book.id() == null ? null : book.id().value();
+
         return new BookJpaEntity(
-                book.id().value(),
+                entityId,
                 new UserJpaEntity(
                         book.ownerId().value(),
                         "Unknown"

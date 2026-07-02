@@ -7,6 +7,7 @@ import jakarta.persistence.*;
 public class BookJpaEntity {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @ManyToOne
