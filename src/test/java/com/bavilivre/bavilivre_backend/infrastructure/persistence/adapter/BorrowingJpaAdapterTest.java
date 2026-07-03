@@ -25,7 +25,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 })
 class BorrowingJpaAdapterTest {
 
-    private static final int BOOK_ID = 10;
+    private Integer bookId;
+
 
     private static final LocalDate BORROWED_AT = LocalDate.of(2026, 5, 19);
     private static final LocalDate RETURNED_AT = LocalDate.of(2026, 5, 24);
@@ -55,7 +56,7 @@ class BorrowingJpaAdapterTest {
 
         borrowing = new Borrowing(
                 null,
-                new BookId(10),
+                new BookId(bookId),
                 new UserId(borrowerId),
                 new UserId(lenderId),
                 BORROWED_AT
@@ -76,7 +77,7 @@ class BorrowingJpaAdapterTest {
 
         assertThat(borrowedByUser).hasSize(1);
 
-        assertThat(borrowedByUser.getFirst().bookId()).isEqualTo(new BookId(BOOK_ID));
+        assertThat(borrowedByUser.getFirst().bookId()).isEqualTo(new BookId(bookId));
         assertThat(borrowedByUser.getFirst().borrowerId()).isEqualTo(new UserId(borrowerId));
 
         assertThat(lentByUser).hasSize(1);
@@ -106,9 +107,9 @@ class BorrowingJpaAdapterTest {
         lenderId = lender.getId();
         borrowerId = borrower.getId();
 
-        bookSpringDataRepository.save(
+        BookJpaEntity savedBook = bookSpringDataRepository.save(
                 new BookJpaEntity(
-                        10,
+                        null,
                         lender,
                         "Clean Code",
                         "Robert C. Martin",
@@ -118,5 +119,6 @@ class BorrowingJpaAdapterTest {
                         true
                 )
         );
+        bookId = savedBook.getId();
     }
 }

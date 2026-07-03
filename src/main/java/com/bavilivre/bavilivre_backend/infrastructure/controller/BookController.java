@@ -3,12 +3,15 @@ package com.bavilivre.bavilivre_backend.infrastructure.controller;
 import com.bavilivre.bavilivre_backend.application.usecase.AddBook;
 import com.bavilivre.bavilivre_backend.application.usecase.GetAvailableBooks;
 import com.bavilivre.bavilivre_backend.application.usecase.GetBookById;
+import com.bavilivre.bavilivre_backend.application.usecase.GetUserByEmail;
 import com.bavilivre.bavilivre_backend.domain.model.book.Book;
 import com.bavilivre.bavilivre_backend.domain.model.book.BookId;
-import com.bavilivre.bavilivre_backend.domain.model.user.UserId;
+import com.bavilivre.bavilivre_backend.domain.model.useraccount.UserAccount;
 import com.bavilivre.bavilivre_backend.infrastructure.controller.request.AddBookRequest;
 import com.bavilivre.bavilivre_backend.infrastructure.controller.response.BookDto;
 import com.bavilivre.bavilivre_backend.infrastructure.persistence.mapper.BookDtoMapper;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,12 +24,14 @@ public class BookController {
     private final GetAvailableBooks getAvailableBooks;
     private final AddBook addBook;
     private final BookDtoMapper bookDtoMapper;
+    private final GetUserByEmail getUserByEmail;
 
-    public BookController(GetBookById getBookById, GetAvailableBooks getAvailableBooks, AddBook addBook, BookDtoMapper bookDtoMapper) {
+    public BookController(GetBookById getBookById, GetAvailableBooks getAvailableBooks, AddBook addBook, BookDtoMapper bookDtoMapper, GetUserByEmail getUserByEmail) {
         this.getBookById = getBookById;
         this.getAvailableBooks = getAvailableBooks;
         this.addBook = addBook;
         this.bookDtoMapper = bookDtoMapper;
+        this.getUserByEmail = getUserByEmail;
     }
 
     @GetMapping("/available")
@@ -52,8 +57,14 @@ public class BookController {
     public BookDto addBook(
             @RequestBody AddBookRequest request
     ) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        String email = authentication.getName();
+
+        UserAccount currentUser = getUserByEmail.handle(email);
+
         Book createdBook = addBook.handle(
-                new UserId(1), // temporaire
+                currentUser.userId(),
                 request.title(),
                 request.author(),
                 request.description(),
