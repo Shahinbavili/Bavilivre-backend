@@ -1,13 +1,11 @@
 package com.bavilivre.bavilivre_backend.infrastructure.controller;
 
-import com.bavilivre.bavilivre_backend.application.usecase.AddBook;
-import com.bavilivre.bavilivre_backend.application.usecase.GetAvailableBooks;
-import com.bavilivre.bavilivre_backend.application.usecase.GetBookById;
-import com.bavilivre.bavilivre_backend.application.usecase.GetUserByEmail;
+import com.bavilivre.bavilivre_backend.application.usecase.*;
 import com.bavilivre.bavilivre_backend.domain.model.book.Book;
 import com.bavilivre.bavilivre_backend.domain.model.book.BookId;
 import com.bavilivre.bavilivre_backend.domain.model.useraccount.UserAccount;
 import com.bavilivre.bavilivre_backend.infrastructure.controller.request.AddBookRequest;
+import com.bavilivre.bavilivre_backend.infrastructure.controller.request.UpdateBookRequest;
 import com.bavilivre.bavilivre_backend.infrastructure.controller.response.BookDto;
 import com.bavilivre.bavilivre_backend.infrastructure.persistence.mapper.BookDtoMapper;
 import org.springframework.security.core.Authentication;
@@ -25,13 +23,15 @@ public class BookController {
     private final AddBook addBook;
     private final BookDtoMapper bookDtoMapper;
     private final GetUserByEmail getUserByEmail;
+    private final UpdateBook updateBook;
 
-    public BookController(GetBookById getBookById, GetAvailableBooks getAvailableBooks, AddBook addBook, BookDtoMapper bookDtoMapper, GetUserByEmail getUserByEmail) {
+    public BookController(GetBookById getBookById, GetAvailableBooks getAvailableBooks, AddBook addBook, BookDtoMapper bookDtoMapper, GetUserByEmail getUserByEmail, UpdateBook updateBook) {
         this.getBookById = getBookById;
         this.getAvailableBooks = getAvailableBooks;
         this.addBook = addBook;
         this.bookDtoMapper = bookDtoMapper;
         this.getUserByEmail = getUserByEmail;
+        this.updateBook = updateBook;
     }
 
     @GetMapping("/available")
@@ -73,6 +73,28 @@ public class BookController {
         );
 
         return bookDtoMapper.toDto(createdBook);
+    }
+
+    @PutMapping("/{id}")
+    public BookDto updateBook(
+            @PathVariable Integer id,
+            @RequestBody UpdateBookRequest request
+    ) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String email = authentication.getName();
+        UserAccount currentUser = getUserByEmail.handle(email);
+
+        Book updatedBook = updateBook.handle(
+                new BookId(id),
+                currentUser.userId(),
+                request.title(),
+                request.author(),
+                request.description(),
+                request.language(),
+                request.category()
+        );
+
+        return bookDtoMapper.toDto(updatedBook);
     }
 
 }

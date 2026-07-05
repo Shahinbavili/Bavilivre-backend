@@ -21,4 +21,14 @@ public record Book(
     public Book markAsAvailable() {
         return new Book(id, ownerId, title, author, description, language, category, true);
     }
+
+    public Book updateMetadata(
+            String title,
+            String author,
+            String description,
+            String language,
+            String category
+    ) {
+        return new Book(id, ownerId, title, author, description, language, category, available);
+    }
 }

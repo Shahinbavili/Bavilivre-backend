@@ -70,4 +70,12 @@ public class GlobalExceptionHandler {
                 "BOOK_NOT_AVAILABLE"
         );
     }
+
+    @ExceptionHandler(UserIsNotBookOwnerException.class)
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    public ErrorResponse handleUserIsNotBookOwnerException(
+            UserIsNotBookOwnerException exception
+    ) {
+        return new ErrorResponse("BOOK_NOT_OWNED");
+    }
 }
