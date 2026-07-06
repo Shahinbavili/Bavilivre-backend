@@ -19,7 +19,8 @@ public class BookJpaMapper {
                 entity.getDescription(),
                 entity.getLanguage(),
                 entity.getCategory(),
-                entity.isAvailable()
+                entity.isAvailable(),
+                entity.isArchived()
         );
     }
 
@@ -38,7 +39,8 @@ public class BookJpaMapper {
                 book.description(),
                 book.language(),
                 book.category(),
-                book.available()
+                book.available(),
+                book.archived()
         );
     }
 }

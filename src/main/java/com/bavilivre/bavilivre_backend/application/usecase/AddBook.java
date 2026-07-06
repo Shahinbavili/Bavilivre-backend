@@ -30,7 +30,8 @@ public class AddBook {
                 description,
                 language,
                 category,
-                true
+                true,
+                false
         );
         return bookRepository.save(book);
 

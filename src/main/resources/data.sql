@@ -17,7 +17,8 @@ INSERT INTO books (id,
                    description,
                    language,
                    category,
-                   available)
+                   available,
+                   archived)
 VALUES (1,
         1,
         'Clean Code',
@@ -25,7 +26,8 @@ VALUES (1,
         'A practical guide to writing clean and maintainable code.',
         'en',
         'Software Engineering',
-        true);
+        true,
+        false);
 
 INSERT INTO books (id,
                    owner_id,
@@ -34,7 +36,8 @@ INSERT INTO books (id,
                    description,
                    language,
                    category,
-                   available)
+                   available,
+                   archived)
 VALUES (2,
         1,
         'Domain-Driven Design',
@@ -42,7 +45,8 @@ VALUES (2,
         'A reference book about domain-driven design.',
         'en',
         'Software Architecture',
-        true);
+        true,
+        false);
 
 INSERT INTO books (id,
                    owner_id,
@@ -51,7 +55,8 @@ INSERT INTO books (id,
                    description,
                    language,
                    category,
-                   available)
+                   available,
+                   archived)
 VALUES (3,
         3,
         'Refactoring',
@@ -59,7 +64,8 @@ VALUES (3,
         'Improving the design of existing code.',
         'en',
         'Software Engineering',
-        true);
+        true,
+        false);
 
 ALTER TABLE books
     ALTER COLUMN id RESTART WITH 4;

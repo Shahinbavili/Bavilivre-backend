@@ -32,7 +32,8 @@ public class GetBorrowedBooks {
                 "A practical guide to writing clean and maintainable code.",
                 "en",
                 "Software Engineering",
-                true
+                true,
+                false
         ));
         borrower.borrow(
                 new Book(
@@ -43,7 +44,8 @@ public class GetBorrowedBooks {
                         "A book about domain-driven design and software architecture.",
                         "en",
                         "Software Architecture",
-                        true
+                        true,
+                        false
                 )
         );
         return borrowDtoMapper.toDto(borrower);

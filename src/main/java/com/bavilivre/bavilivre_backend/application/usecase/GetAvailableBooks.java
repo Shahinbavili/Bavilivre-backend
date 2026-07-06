@@ -5,6 +5,7 @@ import com.bavilivre.bavilivre_backend.domain.model.book.Book;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class GetAvailableBooks {
@@ -16,6 +17,10 @@ public class GetAvailableBooks {
     }
 
     public List<Book> handle() {
-        return bookRepository.findAll();
+
+        return bookRepository.findAll().stream()
+                .filter(Book::available)
+                .filter(book -> !book.archived())
+                .collect(Collectors.toList());
     }
 }

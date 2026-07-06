@@ -8,6 +8,7 @@ public record BookDto(
         String description,
         String language,
         String category,
-        boolean available
+        boolean available,
+        boolean archived
 ) {
 }

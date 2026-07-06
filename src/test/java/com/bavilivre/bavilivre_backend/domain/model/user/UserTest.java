@@ -21,7 +21,8 @@ public class UserTest {
                 "A guide to software architecture and clean boundaries.",
                 "en",
                 "Software Engineering",
-                true
+                true,
+                false
         );
 
 //       When

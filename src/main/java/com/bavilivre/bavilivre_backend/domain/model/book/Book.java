@@ -10,16 +10,21 @@ public record Book(
         String description,
         String language,
         String category,
-        boolean available
+        boolean available,
+        boolean archived
 ) {
 
 
     public Book markAsBorrowed() {
-        return new Book(id, ownerId, title, author, description, language, category, false);
+        return new Book(id, ownerId, title, author, description, language, category, false, archived);
     }
 
     public Book markAsAvailable() {
-        return new Book(id, ownerId, title, author, description, language, category, true);
+        return new Book(id, ownerId, title, author, description, language, category, true, available);
+    }
+
+    public Book archive() {
+        return new Book(id, ownerId, title, author, description, language, category, available, true);
     }
 
     public Book updateMetadata(
@@ -29,6 +34,7 @@ public record Book(
             String language,
             String category
     ) {
-        return new Book(id, ownerId, title, author, description, language, category, available);
+        return new Book(id, ownerId, title, author, description, language, category, available, archived);
     }
+
 }

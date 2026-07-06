@@ -116,7 +116,8 @@ class BorrowingJpaAdapterTest {
                         "Clean code principles",
                         "en",
                         "Software Engineering",
-                        true
+                        true,
+                        false
                 )
         );
         bookId = savedBook.getId();

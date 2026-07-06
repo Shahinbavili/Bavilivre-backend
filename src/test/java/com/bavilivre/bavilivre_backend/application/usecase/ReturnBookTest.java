@@ -54,6 +54,7 @@ class ReturnBookTest {
                 "A book about clean code",
                 "EN",
                 "Programming",
+                false,
                 false
         );
 

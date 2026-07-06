@@ -49,6 +49,7 @@ public class BorrowingJpaMapper {
                         null,
                         null,
                         null,
+                        false,
                         false
                 ),
                 new UserJpaEntity(

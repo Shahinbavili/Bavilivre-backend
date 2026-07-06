@@ -48,7 +48,8 @@ public class BorrowBookTest {
                 "A guide to software architecture and clean boundaries.",
                 "en",
                 "Software Engineering",
-                true
+                true,
+                false
         );
         User borrower = new User(borrowerId, "Shahin");
         User lender = new User(lenderId, "Bob");
@@ -104,6 +105,7 @@ public class BorrowBookTest {
                 "A guide to software architecture and clean boundaries.",
                 "en",
                 "Software Engineering",
+                false,
                 false
         );
 

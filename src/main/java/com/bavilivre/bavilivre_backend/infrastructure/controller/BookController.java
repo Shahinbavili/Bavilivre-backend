@@ -24,14 +24,16 @@ public class BookController {
     private final BookDtoMapper bookDtoMapper;
     private final GetUserByEmail getUserByEmail;
     private final UpdateBook updateBook;
+    private final ArchiveBook archiveBook;
 
-    public BookController(GetBookById getBookById, GetAvailableBooks getAvailableBooks, AddBook addBook, BookDtoMapper bookDtoMapper, GetUserByEmail getUserByEmail, UpdateBook updateBook) {
+    public BookController(GetBookById getBookById, GetAvailableBooks getAvailableBooks, AddBook addBook, BookDtoMapper bookDtoMapper, GetUserByEmail getUserByEmail, UpdateBook updateBook, ArchiveBook archiveBook) {
         this.getBookById = getBookById;
         this.getAvailableBooks = getAvailableBooks;
         this.addBook = addBook;
         this.bookDtoMapper = bookDtoMapper;
         this.getUserByEmail = getUserByEmail;
         this.updateBook = updateBook;
+        this.archiveBook = archiveBook;
     }
 
     @GetMapping("/available")
@@ -95,6 +97,22 @@ public class BookController {
         );
 
         return bookDtoMapper.toDto(updatedBook);
+    }
+
+    @PatchMapping("/{id}/archive")
+    public BookDto archiveBook(
+            @PathVariable Integer id
+    ) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String email = authentication.getName();
+        UserAccount currentUser = getUserByEmail.handle(email);
+
+        Book archivedBook = archiveBook.handle(
+                new BookId(id),
+                currentUser.userId()
+        );
+
+        return bookDtoMapper.toDto(archivedBook);
     }
 
 }
