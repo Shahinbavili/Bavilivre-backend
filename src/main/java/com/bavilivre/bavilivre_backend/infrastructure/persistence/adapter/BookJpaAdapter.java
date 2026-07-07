@@ -35,6 +35,22 @@ public class BookJpaAdapter implements BookRepository {
     }
 
     @Override
+    public List<Book> search(String query) {
+        String normalizedQuery = query == null ? "" : query.trim().toLowerCase();
+
+        return repository.findAll()
+                .stream()
+                .map(mapper::toDomain)
+                .filter(book -> !book.archived())
+                .filter(book -> containsIgnoreCase(book.title(), normalizedQuery) || containsIgnoreCase(book.author(), normalizedQuery))
+                .toList();
+    }
+
+    private boolean containsIgnoreCase(String value, String query) {
+        return value != null && value.toLowerCase().contains(query);
+    }
+
+    @Override
     public Book save(Book book) {
 
         var entity = mapper.toEntity(book);

@@ -12,5 +12,7 @@ public interface BookRepository {
 
     List<Book> findAll();
 
+    List<Book> search(String query);
+
     Book save(Book book);
 }
