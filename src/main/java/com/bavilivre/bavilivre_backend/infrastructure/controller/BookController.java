@@ -25,8 +25,9 @@ public class BookController {
     private final GetUserByEmail getUserByEmail;
     private final UpdateBook updateBook;
     private final ArchiveBook archiveBook;
+    private final SearchBooks searchBooks;
 
-    public BookController(GetBookById getBookById, GetAvailableBooks getAvailableBooks, AddBook addBook, BookDtoMapper bookDtoMapper, GetUserByEmail getUserByEmail, UpdateBook updateBook, ArchiveBook archiveBook) {
+    public BookController(GetBookById getBookById, GetAvailableBooks getAvailableBooks, AddBook addBook, BookDtoMapper bookDtoMapper, GetUserByEmail getUserByEmail, UpdateBook updateBook, ArchiveBook archiveBook, SearchBooks searchBooks) {
         this.getBookById = getBookById;
         this.getAvailableBooks = getAvailableBooks;
         this.addBook = addBook;
@@ -34,11 +35,23 @@ public class BookController {
         this.getUserByEmail = getUserByEmail;
         this.updateBook = updateBook;
         this.archiveBook = archiveBook;
+        this.searchBooks = searchBooks;
     }
 
     @GetMapping("/available")
     public List<BookDto> getAvailableBooks() {
         return getAvailableBooks.handle()
+                .stream()
+                .map(bookDtoMapper::toDto)
+                .toList();
+    }
+
+    @GetMapping("/search")
+    public List<BookDto> searchBook
+            (
+                    @RequestParam String q
+            ) {
+        return searchBooks.hanle(q)
                 .stream()
                 .map(bookDtoMapper::toDto)
                 .toList();
