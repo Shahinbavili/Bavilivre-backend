@@ -4,6 +4,7 @@ import com.bavilivre.bavilivre_backend.infrastructure.security.CustomAuthenticat
 import com.bavilivre.bavilivre_backend.infrastructure.security.JwtAuthenticationFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
@@ -40,6 +41,7 @@ public class SecurityConfig {
                                 "/h2-console/**",
                                 "/actuator/health"
                         ).permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/books/**").permitAll()
                         .anyRequest().authenticated()
                 ).exceptionHandling(exception ->
                         exception.authenticationEntryPoint(authenticationEntryPoint))

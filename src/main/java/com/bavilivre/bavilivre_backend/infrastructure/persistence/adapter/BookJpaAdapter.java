@@ -1,6 +1,7 @@
 package com.bavilivre.bavilivre_backend.infrastructure.persistence.adapter;
 
 import com.bavilivre.bavilivre_backend.application.port.BookRepository;
+import com.bavilivre.bavilivre_backend.application.query.BookFilter;
 import com.bavilivre.bavilivre_backend.domain.model.book.Book;
 import com.bavilivre.bavilivre_backend.domain.model.book.BookId;
 import com.bavilivre.bavilivre_backend.infrastructure.persistence.mapper.BookJpaMapper;
@@ -24,6 +25,20 @@ public class BookJpaAdapter implements BookRepository {
     public Optional<Book> findById(BookId id) {
         return repository.findById(id.value())
                 .map(mapper::toDomain);
+    }
+
+    @Override
+    public List<Book> findByFilter(BookFilter filter) {
+        return repository.findAll().stream()
+                .map(mapper::toDomain)
+                .filter(book -> !book.archived())
+                .filter(book -> filter.language() == null || book.language().equalsIgnoreCase(filter.language())
+                )
+                .filter(book -> filter.category() == null || book.category().equalsIgnoreCase(filter.category())
+                )
+                .filter(book -> filter.available() == null || book.available() == filter.available()
+                )
+                .toList();
     }
 
     @Override

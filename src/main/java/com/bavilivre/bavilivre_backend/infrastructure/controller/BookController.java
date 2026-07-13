@@ -1,5 +1,6 @@
 package com.bavilivre.bavilivre_backend.infrastructure.controller;
 
+import com.bavilivre.bavilivre_backend.application.query.BookFilter;
 import com.bavilivre.bavilivre_backend.application.usecase.*;
 import com.bavilivre.bavilivre_backend.domain.model.book.Book;
 import com.bavilivre.bavilivre_backend.domain.model.book.BookId;
@@ -26,8 +27,9 @@ public class BookController {
     private final UpdateBook updateBook;
     private final ArchiveBook archiveBook;
     private final SearchBooks searchBooks;
+    private final GetFilteredBooks getFilteredBooks;
 
-    public BookController(GetBookById getBookById, GetAvailableBooks getAvailableBooks, AddBook addBook, BookDtoMapper bookDtoMapper, GetUserByEmail getUserByEmail, UpdateBook updateBook, ArchiveBook archiveBook, SearchBooks searchBooks) {
+    public BookController(GetBookById getBookById, GetAvailableBooks getAvailableBooks, AddBook addBook, BookDtoMapper bookDtoMapper, GetUserByEmail getUserByEmail, UpdateBook updateBook, ArchiveBook archiveBook, SearchBooks searchBooks, GetFilteredBooks getFilteredBooks) {
         this.getBookById = getBookById;
         this.getAvailableBooks = getAvailableBooks;
         this.addBook = addBook;
@@ -36,6 +38,7 @@ public class BookController {
         this.updateBook = updateBook;
         this.archiveBook = archiveBook;
         this.searchBooks = searchBooks;
+        this.getFilteredBooks = getFilteredBooks;
     }
 
     @GetMapping("/available")
@@ -51,7 +54,7 @@ public class BookController {
             (
                     @RequestParam String q
             ) {
-        return searchBooks.hanle(q)
+        return searchBooks.handle(q)
                 .stream()
                 .map(bookDtoMapper::toDto)
                 .toList();
@@ -126,6 +129,19 @@ public class BookController {
         );
 
         return bookDtoMapper.toDto(archivedBook);
+    }
+
+    @GetMapping
+    public List<BookDto> getBooks(
+            @RequestParam(required = false) String language,
+            @RequestParam(required = false) String category,
+            @RequestParam(required = false) Boolean available
+    ) {
+        BookFilter filter = new BookFilter(language, category, available);
+
+        return getFilteredBooks.handle(filter).stream()
+                .map(bookDtoMapper::toDto)
+                .toList();
     }
 
 }
