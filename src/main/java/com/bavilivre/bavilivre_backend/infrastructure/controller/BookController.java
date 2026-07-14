@@ -135,9 +135,10 @@ public class BookController {
     public List<BookDto> getBooks(
             @RequestParam(required = false) String language,
             @RequestParam(required = false) String category,
-            @RequestParam(required = false) Boolean available
+            @RequestParam(required = false) Boolean available,
+            @RequestParam(required = false) String sort
     ) {
-        BookFilter filter = new BookFilter(language, category, available);
+        BookFilter filter = new BookFilter(language, category, available, sort);
 
         return getFilteredBooks.handle(filter).stream()
                 .map(bookDtoMapper::toDto)

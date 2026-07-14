@@ -8,6 +8,7 @@ import com.bavilivre.bavilivre_backend.infrastructure.persistence.mapper.BookJpa
 import com.bavilivre.bavilivre_backend.infrastructure.persistence.repository.BookSpringDataRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,7 +30,7 @@ public class BookJpaAdapter implements BookRepository {
 
     @Override
     public List<Book> findByFilter(BookFilter filter) {
-        return repository.findAll().stream()
+        var books = repository.findAll().stream()
                 .map(mapper::toDomain)
                 .filter(book -> !book.archived())
                 .filter(book -> filter.language() == null || book.language().equalsIgnoreCase(filter.language())
@@ -37,8 +38,17 @@ public class BookJpaAdapter implements BookRepository {
                 .filter(book -> filter.category() == null || book.category().equalsIgnoreCase(filter.category())
                 )
                 .filter(book -> filter.available() == null || book.available() == filter.available()
-                )
-                .toList();
+                );
+
+        if ("title".equalsIgnoreCase(filter.sort())) {
+            books = books.sorted(Comparator.comparing(
+                            Book::title,
+                            String.CASE_INSENSITIVE_ORDER
+                    )
+            );
+        }
+
+        return books.toList();
     }
 
     @Override

@@ -3,6 +3,7 @@ package com.bavilivre.bavilivre_backend.application.query;
 public record BookFilter(
         String language,
         String category,
-        Boolean available
+        Boolean available,
+        String sort
 ) {
 }
