@@ -4,6 +4,8 @@ public record BookFilter(
         String language,
         String category,
         Boolean available,
-        String sort
+        String sort,
+        Integer page,
+        Integer size
 ) {
 }

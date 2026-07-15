@@ -2,13 +2,20 @@ package com.bavilivre.bavilivre_backend.infrastructure.persistence.adapter;
 
 import com.bavilivre.bavilivre_backend.application.port.BookRepository;
 import com.bavilivre.bavilivre_backend.application.query.BookFilter;
+import com.bavilivre.bavilivre_backend.application.query.PageResult;
 import com.bavilivre.bavilivre_backend.domain.model.book.Book;
 import com.bavilivre.bavilivre_backend.domain.model.book.BookId;
+import com.bavilivre.bavilivre_backend.infrastructure.persistence.BookSpecifications;
+import com.bavilivre.bavilivre_backend.infrastructure.persistence.entity.BookJpaEntity;
 import com.bavilivre.bavilivre_backend.infrastructure.persistence.mapper.BookJpaMapper;
 import com.bavilivre.bavilivre_backend.infrastructure.persistence.repository.BookSpringDataRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Repository;
 
-import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,26 +36,36 @@ public class BookJpaAdapter implements BookRepository {
     }
 
     @Override
-    public List<Book> findByFilter(BookFilter filter) {
-        var books = repository.findAll().stream()
+    public PageResult<Book> findByFilter(BookFilter filter) {
+
+        Sort sort = "title".equalsIgnoreCase(filter.sort())
+                ? Sort.by("title")
+                : Sort.unsorted();
+
+        Pageable pageable = PageRequest.of(
+                filter.page(),
+                filter.size(),
+                sort
+        );
+
+        Specification<BookJpaEntity> specification =
+                BookSpecifications.withFilter(filter);
+
+        Page<BookJpaEntity> entityPage =
+                repository.findAll(specification, pageable);
+
+        List<Book> books = entityPage.getContent()
+                .stream()
                 .map(mapper::toDomain)
-                .filter(book -> !book.archived())
-                .filter(book -> filter.language() == null || book.language().equalsIgnoreCase(filter.language())
-                )
-                .filter(book -> filter.category() == null || book.category().equalsIgnoreCase(filter.category())
-                )
-                .filter(book -> filter.available() == null || book.available() == filter.available()
-                );
+                .toList();
 
-        if ("title".equalsIgnoreCase(filter.sort())) {
-            books = books.sorted(Comparator.comparing(
-                            Book::title,
-                            String.CASE_INSENSITIVE_ORDER
-                    )
-            );
-        }
-
-        return books.toList();
+        return new PageResult<>(
+                books,
+                entityPage.getTotalElements(),
+                entityPage.getTotalPages(),
+                entityPage.getNumber(),
+                entityPage.getSize()
+        );
     }
 
     @Override

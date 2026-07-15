@@ -1,6 +1,7 @@
 package com.bavilivre.bavilivre_backend.infrastructure.controller;
 
 import com.bavilivre.bavilivre_backend.application.query.BookFilter;
+import com.bavilivre.bavilivre_backend.application.query.PageResult;
 import com.bavilivre.bavilivre_backend.application.usecase.*;
 import com.bavilivre.bavilivre_backend.domain.model.book.Book;
 import com.bavilivre.bavilivre_backend.domain.model.book.BookId;
@@ -8,6 +9,7 @@ import com.bavilivre.bavilivre_backend.domain.model.useraccount.UserAccount;
 import com.bavilivre.bavilivre_backend.infrastructure.controller.request.AddBookRequest;
 import com.bavilivre.bavilivre_backend.infrastructure.controller.request.UpdateBookRequest;
 import com.bavilivre.bavilivre_backend.infrastructure.controller.response.BookDto;
+import com.bavilivre.bavilivre_backend.infrastructure.controller.response.PageResponse;
 import com.bavilivre.bavilivre_backend.infrastructure.persistence.mapper.BookDtoMapper;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -132,17 +134,30 @@ public class BookController {
     }
 
     @GetMapping
-    public List<BookDto> getBooks(
+    public PageResponse<BookDto> getBooks(
             @RequestParam(required = false) String language,
             @RequestParam(required = false) String category,
             @RequestParam(required = false) Boolean available,
-            @RequestParam(required = false) String sort
+            @RequestParam(required = false) String sort,
+            @RequestParam(defaultValue = "0") Integer page,
+            @RequestParam(defaultValue = "10") Integer size
     ) {
-        BookFilter filter = new BookFilter(language, category, available, sort);
+        BookFilter filter = new BookFilter(language, category, available, sort, page, size);
 
-        return getFilteredBooks.handle(filter).stream()
+        PageResult<Book> result = getFilteredBooks.handle(filter);
+
+        List<BookDto> content = result.content()
+                .stream()
                 .map(bookDtoMapper::toDto)
                 .toList();
+
+        return new PageResponse<>(
+                content,
+                result.page(),
+                result.size(),
+                result.totalElements(),
+                result.totalPages()
+        );
     }
 
 }

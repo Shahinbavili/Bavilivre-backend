@@ -1,6 +1,7 @@
 package com.bavilivre.bavilivre_backend.application.port;
 
 import com.bavilivre.bavilivre_backend.application.query.BookFilter;
+import com.bavilivre.bavilivre_backend.application.query.PageResult;
 import com.bavilivre.bavilivre_backend.domain.model.book.Book;
 import com.bavilivre.bavilivre_backend.domain.model.book.BookId;
 
@@ -11,7 +12,7 @@ public interface BookRepository {
 
     Optional<Book> findById(BookId bookId);
 
-    List<Book> findByFilter(BookFilter bookFilter);
+    PageResult<Book> findByFilter(BookFilter bookFilter);
 
     List<Book> findAll();
 

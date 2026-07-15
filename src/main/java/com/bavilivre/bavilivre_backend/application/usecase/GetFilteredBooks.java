@@ -2,10 +2,9 @@ package com.bavilivre.bavilivre_backend.application.usecase;
 
 import com.bavilivre.bavilivre_backend.application.port.BookRepository;
 import com.bavilivre.bavilivre_backend.application.query.BookFilter;
+import com.bavilivre.bavilivre_backend.application.query.PageResult;
 import com.bavilivre.bavilivre_backend.domain.model.book.Book;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 public class GetFilteredBooks {
@@ -15,7 +14,7 @@ public class GetFilteredBooks {
         this.bookRepository = bookRepository;
     }
 
-    public List<Book> handle(BookFilter filter) {
+    public PageResult<Book> handle(BookFilter filter) {
         return bookRepository.findByFilter(filter);
     }
 }
