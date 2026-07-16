@@ -32,7 +32,8 @@ public class GetLentBooks {
                 "en",
                 "Programming",
                 true,
-                false
+                false,
+                null
         ));
         lender.lend(new Book(
                 new BookId(4),
@@ -43,7 +44,8 @@ public class GetLentBooks {
                 "en",
                 "Software Engineering",
                 true,
-                false
+                false,
+                null
         ));
 
         return lendDtoMapper.toDto(lender);

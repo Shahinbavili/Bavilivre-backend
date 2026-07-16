@@ -11,6 +11,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -22,6 +23,8 @@ class ReturnBookTest {
     private BorrowingRepository borrowingRepository;
     private BookRepository bookRepository;
     private ReturnBook returnBook;
+    private static final LocalDateTime CREATED_AT =
+            LocalDateTime.of(2026, 1, 1, 10, 0);
 
     @BeforeEach
     void setUp() {
@@ -55,7 +58,8 @@ class ReturnBookTest {
                 "EN",
                 "Programming",
                 false,
-                false
+                false,
+                CREATED_AT
         );
 
         when(borrowingRepository.findById(borrowingId))

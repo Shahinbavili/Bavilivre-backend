@@ -20,7 +20,8 @@ public class BookJpaMapper {
                 entity.getLanguage(),
                 entity.getCategory(),
                 entity.isAvailable(),
-                entity.isArchived()
+                entity.isArchived(),
+                entity.getCreatedAt()
         );
     }
 
@@ -40,7 +41,8 @@ public class BookJpaMapper {
                 book.language(),
                 book.category(),
                 book.available(),
-                book.archived()
+                book.archived(),
+                book.createdAt()
         );
     }
 }

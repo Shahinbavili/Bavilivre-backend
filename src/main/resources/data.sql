@@ -18,7 +18,8 @@ INSERT INTO books (id,
                    language,
                    category,
                    available,
-                   archived)
+                   archived,
+                   created_at)
 VALUES (1,
         1,
         'Clean Code',
@@ -27,7 +28,8 @@ VALUES (1,
         'en',
         'Software Engineering',
         true,
-        false);
+        false,
+        TIMESTAMP '2026-07-01 10:00:00');
 
 INSERT INTO books (id,
                    owner_id,
@@ -37,7 +39,8 @@ INSERT INTO books (id,
                    language,
                    category,
                    available,
-                   archived)
+                   archived,
+                   created_at)
 VALUES (2,
         1,
         'Domain-Driven Design',
@@ -46,7 +49,8 @@ VALUES (2,
         'en',
         'Software Architecture',
         true,
-        false);
+        false,
+        TIMESTAMP '2026-06-01 10:00:00');
 
 INSERT INTO books (id,
                    owner_id,
@@ -56,7 +60,8 @@ INSERT INTO books (id,
                    language,
                    category,
                    available,
-                   archived)
+                   archived,
+                   created_at)
 VALUES (3,
         3,
         'Refactoring',
@@ -65,7 +70,8 @@ VALUES (3,
         'en',
         'Software Engineering',
         true,
-        false);
+        false,
+        TIMESTAMP '2026-06-11 10:00:00');
 
 ALTER TABLE books
     ALTER COLUMN id RESTART WITH 4;

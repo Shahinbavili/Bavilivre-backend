@@ -118,6 +118,7 @@ class BorrowingJpaAdapterTest {
                         "Software Engineering",
                         true,
                         false
+
                 )
         );
         bookId = savedBook.getId();

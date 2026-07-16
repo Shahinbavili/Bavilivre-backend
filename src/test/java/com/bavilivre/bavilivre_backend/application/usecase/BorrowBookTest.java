@@ -13,6 +13,7 @@ import com.bavilivre.bavilivre_backend.domain.model.user.UserId;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -21,6 +22,10 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 public class BorrowBookTest {
+
+    private static final LocalDateTime CREATED_AT =
+            LocalDateTime.of(2026, 1, 1, 10, 0);
+
     @Test
     void should_borrow_a_book_using_repository_ports() {
 
@@ -49,7 +54,8 @@ public class BorrowBookTest {
                 "en",
                 "Software Engineering",
                 true,
-                false
+                false,
+                CREATED_AT
         );
         User borrower = new User(borrowerId, "Shahin");
         User lender = new User(lenderId, "Bob");
@@ -106,7 +112,8 @@ public class BorrowBookTest {
                 "en",
                 "Software Engineering",
                 false,
-                false
+                false,
+                CREATED_AT
         );
 
         when(bookRepository.findById(bookId)).thenReturn(Optional.of(unavailableBook));

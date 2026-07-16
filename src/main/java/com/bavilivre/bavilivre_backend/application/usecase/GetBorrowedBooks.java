@@ -33,7 +33,8 @@ public class GetBorrowedBooks {
                 "en",
                 "Software Engineering",
                 true,
-                false
+                false,
+                null
         ));
         borrower.borrow(
                 new Book(
@@ -45,7 +46,8 @@ public class GetBorrowedBooks {
                         "en",
                         "Software Architecture",
                         true,
-                        false
+                        false,
+                        null
                 )
         );
         return borrowDtoMapper.toDto(borrower);

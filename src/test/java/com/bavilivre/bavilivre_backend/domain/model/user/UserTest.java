@@ -4,10 +4,16 @@ import com.bavilivre.bavilivre_backend.domain.model.book.Book;
 import com.bavilivre.bavilivre_backend.domain.model.book.BookId;
 import org.junit.jupiter.api.Test;
 
+import java.time.LocalDateTime;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 
 public class UserTest {
+
+    private static final LocalDateTime CREATED_AT =
+            LocalDateTime.of(2026, 1, 1, 10, 0);
+
     @Test
     public void shouldHaveAListOfBorrowedBooks() {
 //       Given
@@ -22,7 +28,8 @@ public class UserTest {
                 "en",
                 "Software Engineering",
                 true,
-                false
+                false,
+                CREATED_AT
         );
 
 //       When
