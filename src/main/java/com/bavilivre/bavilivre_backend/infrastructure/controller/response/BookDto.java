@@ -1,5 +1,7 @@
 package com.bavilivre.bavilivre_backend.infrastructure.controller.response;
 
+import java.time.LocalDateTime;
+
 public record BookDto(
         Integer id,
         Integer ownerId,
@@ -9,6 +11,7 @@ public record BookDto(
         String language,
         String category,
         boolean available,
-        boolean archived
+        boolean archived,
+        LocalDateTime createdAt
 ) {
 }

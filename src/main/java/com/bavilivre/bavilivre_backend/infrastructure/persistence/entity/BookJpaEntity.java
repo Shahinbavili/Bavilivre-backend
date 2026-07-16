@@ -2,6 +2,8 @@ package com.bavilivre.bavilivre_backend.infrastructure.persistence.entity;
 
 import jakarta.persistence.*;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Table(name = "books")
 public class BookJpaEntity {
@@ -33,7 +35,41 @@ public class BookJpaEntity {
     @Column(nullable = false)
     private boolean archived;
 
+    @Column(name = "created_at", nullable = false, updatable = false)
+    private LocalDateTime createdAt;
+
+    @PrePersist
+    void prePersist() {
+        if (createdAt == null) {
+            createdAt = LocalDateTime.now();
+        }
+    }
+
     protected BookJpaEntity() {
+    }
+
+    public BookJpaEntity(
+            Integer id,
+            UserJpaEntity owner,
+            String title,
+            String author,
+            String description,
+            String language,
+            String category,
+            boolean available,
+            boolean archived,
+            LocalDateTime createdAt
+    ) {
+        this.id = id;
+        this.owner = owner;
+        this.title = title;
+        this.author = author;
+        this.description = description;
+        this.language = language;
+        this.category = category;
+        this.available = available;
+        this.archived = archived;
+        this.createdAt = createdAt;
     }
 
     public BookJpaEntity(
@@ -47,15 +83,18 @@ public class BookJpaEntity {
             boolean available,
             boolean archived
     ) {
-        this.id = id;
-        this.owner = owner;
-        this.title = title;
-        this.author = author;
-        this.description = description;
-        this.language = language;
-        this.category = category;
-        this.available = available;
-        this.archived = archived;
+        this(
+                id,
+                owner,
+                title,
+                author,
+                description,
+                language,
+                category,
+                available,
+                archived,
+                null
+        );
     }
 
     public Integer getId() {
@@ -92,6 +131,10 @@ public class BookJpaEntity {
 
     public boolean isArchived() {
         return archived;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
     }
 
     public void setAvailable(boolean available) {

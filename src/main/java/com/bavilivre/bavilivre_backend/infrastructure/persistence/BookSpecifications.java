@@ -9,6 +9,7 @@ public final class BookSpecifications {
     private BookSpecifications() {
     }
 
+    //    We want the database to filter, not Java.
     public static Specification<BookJpaEntity> withFilter(BookFilter filter) {
         return Specification.allOf(
                 notArchived(),
@@ -26,7 +27,7 @@ public final class BookSpecifications {
     private static Specification<BookJpaEntity> hasLanguage(String language) {
         return ((root, query, criteriaBuilder) -> {
             if (language == null || language.isBlank()) {
-                return criteriaBuilder.conjunction();
+                return criteriaBuilder.conjunction(); // always creat a true condition
             }
             return criteriaBuilder.equal(
                     criteriaBuilder.lower(root.get("language")),

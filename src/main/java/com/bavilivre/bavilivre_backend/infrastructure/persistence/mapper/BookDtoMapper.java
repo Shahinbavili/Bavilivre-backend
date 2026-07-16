@@ -17,7 +17,8 @@ public class BookDtoMapper {
                 book.language(),
                 book.category(),
                 book.available(),
-                book.archived()
+                book.archived(),
+                book.createdAt()
         );
     }
 }
