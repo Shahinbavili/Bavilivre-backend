@@ -38,10 +38,11 @@ public class BookJpaAdapter implements BookRepository {
     @Override
     public PageResult<Book> findByFilter(BookFilter filter) {
 
-        Sort sort = switch (filter.sort()) {
-            case "title" -> Sort.by("title");
-            case "createdAt" -> Sort.by(Sort.Direction.DESC, "createdAt");
-            default -> Sort.unsorted();
+        Sort sort = switch (filter.sort() == null ? "" : filter.sort()) {
+            case "title" -> Sort.by(Sort.Direction.ASC, "title");
+            case "-title" -> Sort.by(Sort.Direction.DESC, "title");
+            case "-createdAt" -> Sort.by(Sort.Direction.ASC, "createdAt");
+            default -> Sort.by(Sort.Direction.DESC, "createdAt");
         };
 
         Pageable pageable = PageRequest.of(
