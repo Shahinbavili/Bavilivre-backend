@@ -89,12 +89,29 @@ VALUES (1,
         CURRENT_DATE,
         NULL);
 
+INSERT INTO borrowings (
+    id,
+    book_id,
+    borrower_id,
+    lender_id,
+    borrowed_at,
+    returned_at
+)
+VALUES (
+           2,
+           3,
+           1,
+           3,
+           CURRENT_DATE,
+           NULL
+       );
+
 INSERT INTO user_accounts (user_id,
                            email,
                            password_hash)
 VALUES (1,
-        'shahin@bavilivre.dev',
-        'password');
+        'shahinbavili@gmail.com',
+        '$2a$10$iLrF2bg6gKPLag/3ZTpjve1ZUIGdDLivAy1Fpcm99jEElsvoJsZou');
 
 INSERT INTO user_accounts (user_id,
                            email,
