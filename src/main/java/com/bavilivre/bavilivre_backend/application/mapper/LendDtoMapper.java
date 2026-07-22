@@ -1,21 +1,25 @@
 package com.bavilivre.bavilivre_backend.application.mapper;
 
+import com.bavilivre.bavilivre_backend.domain.model.borrowing.Borrowing;
 import com.bavilivre.bavilivre_backend.infrastructure.controller.response.LentBooksDto;
-import com.bavilivre.bavilivre_backend.domain.model.user.User;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
 @Component
 public class LendDtoMapper {
 
-    public LentBooksDto toDto(User lender) {
-        Map<Integer, Integer> lentBookList = lender.lentBooks().stream()
+    public LentBooksDto toDto(List<Borrowing> borrowings) {
+
+        Map<Integer, Integer> lentBookList = borrowings.stream()
+                .filter(borrowing -> !borrowing.isReturned())
                 .collect(Collectors.toMap(
-                        book -> book.id().value(),
-                        book -> book.ownerId().value()
+                        borrowing -> borrowing.bookId().value(),
+                        borrowing -> borrowing.borrowerId().value()
                 ));
+
         return new LentBooksDto(lentBookList);
     }
 

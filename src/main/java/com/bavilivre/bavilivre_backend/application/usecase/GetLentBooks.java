@@ -1,53 +1,29 @@
 package com.bavilivre.bavilivre_backend.application.usecase;
 
 import com.bavilivre.bavilivre_backend.application.mapper.LendDtoMapper;
-import com.bavilivre.bavilivre_backend.domain.model.book.Book;
-import com.bavilivre.bavilivre_backend.domain.model.book.BookId;
-import com.bavilivre.bavilivre_backend.domain.model.user.User;
+import com.bavilivre.bavilivre_backend.application.port.BorrowingRepository;
+import com.bavilivre.bavilivre_backend.domain.model.borrowing.Borrowing;
 import com.bavilivre.bavilivre_backend.domain.model.user.UserId;
 import com.bavilivre.bavilivre_backend.infrastructure.controller.response.LentBooksDto;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class GetLentBooks {
+
+    private final BorrowingRepository borrowingRepository;
     private final LendDtoMapper lendDtoMapper;
 
-    public GetLentBooks(LendDtoMapper lendDtoMapper) {
+    public GetLentBooks(BorrowingRepository borrowingRepository, LendDtoMapper lendDtoMapper) {
+        this.borrowingRepository = borrowingRepository;
         this.lendDtoMapper = lendDtoMapper;
     }
 
     public LentBooksDto handle(Integer userId) {
-        User lender = new User(
-                new UserId(userId),
-                "User " + userId
-        );
 
-        //Temporary simulation
-        lender.lend(new Book(
-                new BookId(3),
-                new UserId(userId),
-                "Effective Java",
-                "Joshua Bloch",
-                "Best practices for modern Java development.",
-                "en",
-                "Programming",
-                true,
-                false,
-                null
-        ));
-        lender.lend(new Book(
-                new BookId(4),
-                new UserId(userId),
-                "Refactoring",
-                "Martin Fowler",
-                "Improving the design of existing code.",
-                "en",
-                "Software Engineering",
-                true,
-                false,
-                null
-        ));
+        List<Borrowing> borrowings = borrowingRepository.findByLender_Id(new UserId(userId));
 
-        return lendDtoMapper.toDto(lender);
+        return lendDtoMapper.toDto(borrowings);
     }
 }
