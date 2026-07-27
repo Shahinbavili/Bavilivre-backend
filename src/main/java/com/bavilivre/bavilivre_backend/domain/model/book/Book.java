@@ -30,6 +30,10 @@ public record Book(
         return new Book(id, ownerId, title, author, description, language, category, available, true, createdAt);
     }
 
+    public Book unarchive() {
+        return new Book(id, ownerId, title, author, description, language, category, available, false, createdAt);
+    }
+
     public Book updateMetadata(
             String title,
             String author,
@@ -39,5 +43,4 @@ public record Book(
     ) {
         return new Book(id, ownerId, title, author, description, language, category, available, archived, createdAt);
     }
-
 }

@@ -4,7 +4,13 @@ import com.bavilivre.bavilivre_backend.infrastructure.persistence.entity.BookJpa
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
+import java.util.List;
+
 public interface BookSpringDataRepository
         extends JpaRepository<BookJpaEntity, Integer>,
         JpaSpecificationExecutor<BookJpaEntity> {
+    List<BookJpaEntity> findByOwner_IdAndArchived(
+            Integer ownerId,
+            boolean archived
+    );
 }

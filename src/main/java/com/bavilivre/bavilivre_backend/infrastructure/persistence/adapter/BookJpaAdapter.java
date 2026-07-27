@@ -5,6 +5,7 @@ import com.bavilivre.bavilivre_backend.application.query.BookFilter;
 import com.bavilivre.bavilivre_backend.application.query.PageResult;
 import com.bavilivre.bavilivre_backend.domain.model.book.Book;
 import com.bavilivre.bavilivre_backend.domain.model.book.BookId;
+import com.bavilivre.bavilivre_backend.domain.model.user.UserId;
 import com.bavilivre.bavilivre_backend.infrastructure.persistence.BookSpecifications;
 import com.bavilivre.bavilivre_backend.infrastructure.persistence.entity.BookJpaEntity;
 import com.bavilivre.bavilivre_backend.infrastructure.persistence.mapper.BookJpaMapper;
@@ -88,6 +89,18 @@ public class BookJpaAdapter implements BookRepository {
                 .map(mapper::toDomain)
                 .filter(book -> !book.archived())
                 .filter(book -> containsIgnoreCase(book.title(), normalizedQuery) || containsIgnoreCase(book.author(), normalizedQuery))
+                .toList();
+    }
+
+    @Override
+    public List<Book> findByOwnerIdAndArchived(
+            UserId ownerId,
+            boolean archived
+    ) {
+        return repository
+                .findByOwner_IdAndArchived(ownerId.value(), archived)
+                .stream()
+                .map(mapper::toDomain)
                 .toList();
     }
 
