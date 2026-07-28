@@ -16,6 +16,7 @@ public class GetArchivedBooks {
         this.bookRepository = bookRepository;
     }
 
+    //    only the logged-in user's archived books
     public List<Book> handle(UserId currentUserId) {
         return bookRepository.findByOwnerIdAndArchived(
                 currentUserId,
