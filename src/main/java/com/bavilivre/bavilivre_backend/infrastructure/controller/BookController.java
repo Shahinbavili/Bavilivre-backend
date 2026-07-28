@@ -30,8 +30,10 @@ public class BookController {
     private final ArchiveBook archiveBook;
     private final SearchBooks searchBooks;
     private final GetFilteredBooks getFilteredBooks;
+    private final GetArchivedBooks getArchivedBooks;
+    private final UnarchiveBook unarchiveBook;
 
-    public BookController(GetBookById getBookById, GetAvailableBooks getAvailableBooks, AddBook addBook, BookDtoMapper bookDtoMapper, GetUserByEmail getUserByEmail, UpdateBook updateBook, ArchiveBook archiveBook, SearchBooks searchBooks, GetFilteredBooks getFilteredBooks) {
+    public BookController(GetBookById getBookById, GetAvailableBooks getAvailableBooks, AddBook addBook, BookDtoMapper bookDtoMapper, GetUserByEmail getUserByEmail, UpdateBook updateBook, ArchiveBook archiveBook, SearchBooks searchBooks, GetFilteredBooks getFilteredBooks, GetArchivedBooks getArchivedBooks, UnarchiveBook unarchiveBook) {
         this.getBookById = getBookById;
         this.getAvailableBooks = getAvailableBooks;
         this.addBook = addBook;
@@ -41,6 +43,8 @@ public class BookController {
         this.archiveBook = archiveBook;
         this.searchBooks = searchBooks;
         this.getFilteredBooks = getFilteredBooks;
+        this.getArchivedBooks = getArchivedBooks;
+        this.unarchiveBook = unarchiveBook;
     }
 
     @GetMapping("/available")
@@ -60,17 +64,6 @@ public class BookController {
                 .stream()
                 .map(bookDtoMapper::toDto)
                 .toList();
-    }
-
-    @GetMapping("/{id}")
-    public BookDto getBook(
-            @PathVariable Integer id
-    ) {
-        Book book = getBookById.handle(
-                new BookId(id)
-        );
-
-        return bookDtoMapper.toDto(book);
     }
 
     @PostMapping
@@ -95,6 +88,61 @@ public class BookController {
         return bookDtoMapper.toDto(createdBook);
     }
 
+    @GetMapping("/archived")
+    public List<BookDto> getArchivedBooks() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String email = authentication.getName();
+        UserAccount currentUser = getUserByEmail.handle(email);
+
+        return getArchivedBooks.handle(currentUser.userId())
+                .stream()
+                .map(bookDtoMapper::toDto)
+                .toList();
+    }
+
+    @PatchMapping("/{id}/archive")
+    public BookDto archiveBook(
+            @PathVariable Integer id
+    ) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String email = authentication.getName();
+        UserAccount currentUser = getUserByEmail.handle(email);
+
+        Book archivedBook = archiveBook.handle(
+                new BookId(id),
+                currentUser.userId()
+        );
+
+        return bookDtoMapper.toDto(archivedBook);
+    }
+
+    @PatchMapping("/{id}/unarchive")
+    public BookDto unarchiveBook(
+            @PathVariable Integer id
+    ) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String email = authentication.getName();
+        UserAccount currentUser = getUserByEmail.handle(email);
+
+        Book unarchivedBook = unarchiveBook.handle(
+                new BookId(id),
+                currentUser.userId()
+        );
+
+        return bookDtoMapper.toDto(unarchivedBook);
+    }
+
+    @GetMapping("/{id}")
+    public BookDto getBook(
+            @PathVariable Integer id
+    ) {
+        Book book = getBookById.handle(
+                new BookId(id)
+        );
+
+        return bookDtoMapper.toDto(book);
+    }
+
     @PutMapping("/{id}")
     public BookDto updateBook(
             @PathVariable Integer id,
@@ -115,22 +163,6 @@ public class BookController {
         );
 
         return bookDtoMapper.toDto(updatedBook);
-    }
-
-    @PatchMapping("/{id}/archive")
-    public BookDto archiveBook(
-            @PathVariable Integer id
-    ) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String email = authentication.getName();
-        UserAccount currentUser = getUserByEmail.handle(email);
-
-        Book archivedBook = archiveBook.handle(
-                new BookId(id),
-                currentUser.userId()
-        );
-
-        return bookDtoMapper.toDto(archivedBook);
     }
 
     @GetMapping
