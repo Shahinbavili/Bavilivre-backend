@@ -41,8 +41,13 @@ public class BookJpaAdapter implements BookRepository {
 
         Sort sort = switch (filter.sort() == null ? "" : filter.sort()) {
             case "title" -> Sort.by(Sort.Direction.ASC, "title");
+
             case "-title" -> Sort.by(Sort.Direction.DESC, "title");
-            case "-createdAt" -> Sort.by(Sort.Direction.ASC, "createdAt");
+
+            case "createdAt" -> Sort.by(Sort.Direction.ASC, "createdAt");
+
+            case "-createdAt" -> Sort.by(Sort.Direction.DESC, "createdAt");
+
             default -> Sort.by(Sort.Direction.DESC, "createdAt");
         };
 
