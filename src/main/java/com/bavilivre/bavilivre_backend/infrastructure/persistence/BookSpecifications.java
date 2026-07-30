@@ -13,6 +13,7 @@ public final class BookSpecifications {
     public static Specification<BookJpaEntity> withFilter(BookFilter filter) {
         return Specification.allOf(
                 notArchived(),
+                hasTitle(filter.title()),
                 hasLanguage(filter.language()),
                 hasCategory(filter.category()),
                 hasAvailability(filter.available())
@@ -58,5 +59,18 @@ public final class BookSpecifications {
                     available
             );
         });
+    }
+
+    private static Specification<BookJpaEntity> hasTitle(String title) {
+        return (root, query, criteriaBuilder) -> {
+            if (title == null || title.isBlank()) {
+                return criteriaBuilder.conjunction();
+            }
+
+            return criteriaBuilder.like(
+                    criteriaBuilder.lower(root.get("title")),
+                    "%" + title.trim().toLowerCase() + "%"
+            );
+        };
     }
 }

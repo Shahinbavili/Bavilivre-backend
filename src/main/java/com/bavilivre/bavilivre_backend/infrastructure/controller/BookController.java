@@ -167,6 +167,7 @@ public class BookController {
 
     @GetMapping
     public PageResponse<BookDto> getBooks(
+            @RequestParam(required = false) String title,
             @RequestParam(required = false) String language,
             @RequestParam(required = false) String category,
             @RequestParam(required = false) Boolean available,
@@ -174,7 +175,7 @@ public class BookController {
             @RequestParam(defaultValue = "0") Integer page,
             @RequestParam(defaultValue = "10") Integer size
     ) {
-        BookFilter filter = new BookFilter(language, category, available, sort, page, size);
+        BookFilter filter = new BookFilter(title, language, category, available, sort, page, size);
 
         PageResult<Book> result = getFilteredBooks.handle(filter);
 
