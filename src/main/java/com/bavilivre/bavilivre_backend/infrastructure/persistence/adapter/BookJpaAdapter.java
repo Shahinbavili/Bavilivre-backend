@@ -109,6 +109,40 @@ public class BookJpaAdapter implements BookRepository {
                 .toList();
     }
 
+    @Override
+    public PageResult<Book> findByOwnerIdAndArchived(
+            UserId ownerId,
+            boolean archived,
+            int page,
+            int size
+    ) {
+        Pageable pageable = PageRequest.of(
+                page,
+                size,
+                Sort.by(Sort.Direction.DESC, "createdAt")
+        );
+
+        Page<BookJpaEntity> entityPage =
+                repository.findByOwner_IdAndArchived(
+                        ownerId.value(),
+                        archived,
+                        pageable
+                );
+
+        List<Book> books = entityPage.getContent()
+                .stream()
+                .map(mapper::toDomain)
+                .toList();
+
+        return new PageResult<>(
+                books,
+                entityPage.getTotalElements(),
+                entityPage.getTotalPages(),
+                entityPage.getNumber(),
+                entityPage.getSize()
+        );
+    }
+
     private boolean containsIgnoreCase(String value, String query) {
         return value != null && value.toLowerCase().contains(query);
     }

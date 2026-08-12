@@ -19,7 +19,17 @@ public interface BookRepository {
 
     List<Book> search(String query);
 
-    List<Book> findByOwnerIdAndArchived(UserId ownerId, boolean archived);
+    List<Book> findByOwnerIdAndArchived(
+            UserId ownerId,
+            boolean archived
+    );
+
+    PageResult<Book> findByOwnerIdAndArchived(
+            UserId ownerId,
+            boolean archived,
+            int page,
+            int size
+    );
 
     Book save(Book book);
 }

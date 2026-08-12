@@ -41,6 +41,7 @@ public class SecurityConfig {
                                 "/h2-console/**",
                                 "/actuator/health"
                         ).permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/books/mine").authenticated()
                         .requestMatchers(HttpMethod.GET, "/api/books/**").permitAll()
                         .anyRequest().authenticated()
                 ).exceptionHandling(exception ->
