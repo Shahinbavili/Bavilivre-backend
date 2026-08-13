@@ -32,8 +32,9 @@ public class BookController {
     private final GetFilteredBooks getFilteredBooks;
     private final GetArchivedBooks getArchivedBooks;
     private final UnarchiveBook unarchiveBook;
+    private final GetMyBooks getMyBooks;
 
-    public BookController(GetBookById getBookById, GetAvailableBooks getAvailableBooks, AddBook addBook, BookDtoMapper bookDtoMapper, GetUserByEmail getUserByEmail, UpdateBook updateBook, ArchiveBook archiveBook, SearchBooks searchBooks, GetFilteredBooks getFilteredBooks, GetArchivedBooks getArchivedBooks, UnarchiveBook unarchiveBook) {
+    public BookController(GetBookById getBookById, GetAvailableBooks getAvailableBooks, AddBook addBook, BookDtoMapper bookDtoMapper, GetUserByEmail getUserByEmail, UpdateBook updateBook, ArchiveBook archiveBook, SearchBooks searchBooks, GetFilteredBooks getFilteredBooks, GetArchivedBooks getArchivedBooks, UnarchiveBook unarchiveBook, GetMyBooks getMyBooks) {
         this.getBookById = getBookById;
         this.getAvailableBooks = getAvailableBooks;
         this.addBook = addBook;
@@ -45,6 +46,7 @@ public class BookController {
         this.getFilteredBooks = getFilteredBooks;
         this.getArchivedBooks = getArchivedBooks;
         this.unarchiveBook = unarchiveBook;
+        this.getMyBooks = getMyBooks;
     }
 
     @GetMapping("/available")
@@ -130,6 +132,38 @@ public class BookController {
         );
 
         return bookDtoMapper.toDto(unarchivedBook);
+    }
+
+    @GetMapping("/mine")
+    public PageResponse<BookDto> getMyBooks(
+            @RequestParam(defaultValue = "0") Integer page,
+            @RequestParam(defaultValue = "12") Integer size
+    ) {
+        Authentication authentication =
+                SecurityContextHolder.getContext().getAuthentication();
+
+        String email = authentication.getName();
+
+        UserAccount currentUser = getUserByEmail.handle(email);
+
+        PageResult<Book> result = getMyBooks.handle(
+                currentUser.userId(),
+                page,
+                size
+        );
+
+        List<BookDto> content = result.content()
+                .stream()
+                .map(bookDtoMapper::toDto)
+                .toList();
+
+        return new PageResponse<>(
+                content,
+                result.page(),
+                result.size(),
+                result.totalElements(),
+                result.totalPages()
+        );
     }
 
     @GetMapping("/{id}")

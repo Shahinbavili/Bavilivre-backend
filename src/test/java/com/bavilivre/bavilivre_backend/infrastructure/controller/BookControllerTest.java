@@ -1,5 +1,6 @@
 package com.bavilivre.bavilivre_backend.infrastructure.controller;
 
+import com.bavilivre.bavilivre_backend.application.query.PageResult;
 import com.bavilivre.bavilivre_backend.application.usecase.*;
 import com.bavilivre.bavilivre_backend.domain.model.book.Book;
 import com.bavilivre.bavilivre_backend.domain.model.book.BookId;
@@ -40,6 +41,9 @@ class BookControllerTest {
 
     @MockitoBean
     private JwtAuthenticationFilter jwtAuthenticationFilter;
+
+    @MockitoBean
+    private GetMyBooks getMyBooks;
 
     @MockitoBean
     private GetBookById getBookById;
@@ -237,5 +241,142 @@ class BookControllerTest {
 
         verify(bookDtoMapper)
                 .toDto(unarchivedBook);
+    }
+
+    @Test
+    @WithMockUser(username = CURRENT_USER_EMAIL)
+    void shouldReturnCurrentUserActiveBooksWithPagination()
+            throws Exception {
+
+        UserId currentUserId = new UserId(1);
+
+        UserAccount currentUser = mock(
+                UserAccount.class
+        );
+
+        Book book = new Book(
+                new BookId(1),
+                currentUserId,
+                "Clean Code",
+                "Robert C. Martin",
+                "A practical guide to clean code.",
+                "en",
+                "Software Engineering",
+                true,
+                false,
+                LocalDateTime.of(2026, 7, 1, 10, 0)
+        );
+
+        BookDto bookDto = new BookDto(
+                1,
+                1,
+                "Clean Code",
+                "Robert C. Martin",
+                "A practical guide to clean code.",
+                "en",
+                "Software Engineering",
+                true,
+                false,
+                LocalDateTime.of(2026, 7, 1, 10, 0)
+        );
+
+        PageResult<Book> pageResult = new PageResult<>(
+                List.of(book),
+                5,
+                3,
+                1,
+                2
+        );
+
+        when(currentUser.userId())
+                .thenReturn(currentUserId);
+
+        when(getUserByEmail.handle(CURRENT_USER_EMAIL))
+                .thenReturn(currentUser);
+
+        when(getMyBooks.handle(
+                currentUserId,
+                1,
+                2
+        )).thenReturn(pageResult);
+
+        when(bookDtoMapper.toDto(book))
+                .thenReturn(bookDto);
+
+        mockMvc.perform(
+                        get("/api/books/mine")
+                                .param("page", "1")
+                                .param("size", "2")
+                )
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.content[0].id").value(1))
+                .andExpect(jsonPath("$.content[0].ownerId").value(1))
+                .andExpect(jsonPath("$.content[0].title").value("Clean Code"))
+                .andExpect(jsonPath("$.content[0].archived").value(false))
+                .andExpect(jsonPath("$.page").value(1))
+                .andExpect(jsonPath("$.size").value(2))
+                .andExpect(jsonPath("$.totalElements").value(5))
+                .andExpect(jsonPath("$.totalPages").value(3));
+
+        verify(getUserByEmail)
+                .handle(CURRENT_USER_EMAIL);
+
+        verify(getMyBooks)
+                .handle(currentUserId, 1, 2);
+
+        verify(bookDtoMapper)
+                .toDto(book);
+    }
+
+    @Test
+    @WithMockUser(username = CURRENT_USER_EMAIL)
+    void shouldReturnEmptyPageWhenCurrentUserHasNoActiveBooks()
+            throws Exception {
+
+        UserId currentUserId = new UserId(1);
+
+        UserAccount currentUser = mock(
+                UserAccount.class
+        );
+
+        PageResult<Book> pageResult = new PageResult<>(
+                List.of(),
+                0,
+                0,
+                0,
+                12
+        );
+
+        when(currentUser.userId())
+                .thenReturn(currentUserId);
+
+        when(getUserByEmail.handle(CURRENT_USER_EMAIL))
+                .thenReturn(currentUser);
+
+        when(getMyBooks.handle(
+                currentUserId,
+                0,
+                12
+        )).thenReturn(pageResult);
+
+        mockMvc.perform(
+                        get("/api/books/mine")
+                                .param("page", "0")
+                                .param("size", "12")
+                )
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.content").isEmpty())
+                .andExpect(jsonPath("$.page").value(0))
+                .andExpect(jsonPath("$.size").value(12))
+                .andExpect(jsonPath("$.totalElements").value(0))
+                .andExpect(jsonPath("$.totalPages").value(0));
+
+        verify(getUserByEmail)
+                .handle(CURRENT_USER_EMAIL);
+
+        verify(getMyBooks)
+                .handle(currentUserId, 0, 12);
+
+        verifyNoInteractions(bookDtoMapper);
     }
 }
